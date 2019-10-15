@@ -2,74 +2,39 @@ package ui
 
 import (
 	blt "bearlibterminal"
-	"strconv"
+
+	m "github.com/castle/src/game/model"
 )
 
-type GameEntity struct {
-	X     int
-	Y     int
-	Layer int
-	Char  string
-	Color string
-}
-
-func (e *GameEntity) Move(dx int, dy int) {
-	e.X += dx
-	e.Y += dy
-}
-
-func (e *GameEntity) Draw() {
-	blt.Layer(e.Layer)
-	blt.Color(blt.ColorFromName(e.Color))
-	blt.Print(e.X, e.Y, e.Char)
-}
-
-func (e *GameEntity) Clear() {
-	blt.Layer(e.Layer)
-	blt.Print(e.X, e.Y, " ")
-}
-
-type Tile struct {
-	Blocked     bool
-	BlocksSight bool
-	Baba1       string
-	Baba2       string
-	Baba3       string
-	Baba4       string
-	Baba5       string
-	Baba6       string
-	Baba7       string
-	Baba8       string
-	Baba9       string
-}
-
-type GameMap struct {
-	Width  int
-	Height int
-	Tiles  [][]*Tile
-}
-
-func (m *GameMap) InitializeMap() {
-	m.Tiles = make([][]*Tile, m.Width)
-	for i := range m.Tiles {
-		m.Tiles[i] = make([]*Tile, m.Height)
-	}
-
-	for x := 0; x < m.Width; x++ {
-		for y := 0; y < m.Height; y++ {
-			if x == 0 || x == m.Width-1 || y == 0 || y == m.Height-1 {
-				m.Tiles[x][y] = &Tile{true, true, "hahahahahahahahahhahahahah" + strconv.Itoa(x+y), "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah"}
+func renderMap(camera *Camera, world *m.World) {
+	tiles := world.Regions[camera.Pos.Region].Tiles[camera.Pos.Z]
+	for x := 0; x < camera.Width; x++ {
+		columnIndex := camera.Pos.X - int(camera.Width/2) + x
+		if columnIndex < 0 || columnIndex >= len(tiles) {
+			continue
+		}
+		for y := 0; y < camera.Height; y++ {
+			column := tiles[columnIndex]
+			rowIndex := camera.Pos.Y - int(camera.Height/2) + y
+			if rowIndex < 0 || rowIndex >= len(column) {
+				continue
+			}
+			if tiles[rowIndex][columnIndex].Surface == m.SurfaceRock {
+				blt.Color(blt.ColorFromName("gray"))
+				blt.Print(x, y, "#")
 			} else {
-				m.Tiles[x][y] = &Tile{false, false, "hahahahahahahahahhahahahah" + strconv.Itoa(x+y), "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah", "hahahahahahahahahhahahahah"}
+				blt.Color(blt.ColorFromName("brown"))
+				blt.Print(x, y, ".")
 			}
 		}
 	}
 }
 
-func (m *GameMap) IsBlocked(x int, y int) bool {
-	if m.Tiles[x][y].Blocked {
-		return true
-	} else {
-		return false
-	}
+func renderPlayer(camera *Camera, player *m.Player) {
+	camX := int(camera.Width / 2)
+	camY := int(camera.Height / 2)
+	x := camX + player.Pos.X - camera.Pos.X
+	y := camY + player.Pos.Y - camera.Pos.Y
+	blt.Color(blt.ColorFromName("white"))
+	blt.Print(x, y, "@")
 }
