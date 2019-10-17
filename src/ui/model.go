@@ -1,12 +1,13 @@
 package ui
 
 import (
-	m "github.com/castle/src/game/model"
+	g "github.com/castle/src/game"
 )
 
 const (
-	CameraDefaultWidth  = 61
-	CameraDefaultHeight = 41
+	InfoPanelDefaultWidth = 30
+	CameraDefaultWidth    = 61
+	CameraDefaultHeight   = 61
 )
 
 type State struct {
@@ -16,5 +17,5 @@ type State struct {
 type Camera struct {
 	Width  int
 	Height int
-	Pos    *m.Pos
+	Pos    *g.Pos
 }

@@ -1,16 +1,11 @@
 package game
 
-import (
-	m "github.com/castle/src/game/model"
-	"github.com/castle/src/game/sim"
-)
-
-func InitGame() *m.State {
-	var state = &m.State{
+func InitGame() *State {
+	var state = &State{
 		Player: nil,
 		World:  nil,
 	}
-	state.Player = sim.InitPlayer()
-	state.World = sim.InitWorld()
+	state.Player = InitPlayer()
+	state.World = InitWorld()
 	return state
 }

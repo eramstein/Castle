@@ -1,10 +1,10 @@
 package ui
 
 import (
-	m "github.com/castle/src/game/model"
+	g "github.com/castle/src/game"
 )
 
-func InitUI(gameState *m.State) *State {
+func InitUI(gameState *g.State) *State {
 	var player = gameState.Player
 	var state = &State{
 		Camera: &Camera{

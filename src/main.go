@@ -11,35 +11,37 @@ import (
 	"strconv"
 
 	g "github.com/castle/src/game"
-	m "github.com/castle/src/game/model"
 	"github.com/castle/src/ui"
 )
 
 type FullState struct {
-	game *m.State
-	ui   *ui.State
+	Game *g.State
+	UI   *ui.State
 }
 
 var State = &FullState{}
 
 const (
-	WindowSizeX   = ui.CameraDefaultWidth
-	WindowSizeY   = ui.CameraDefaultHeight
+	WindowSizeX   = ui.CameraDefaultWidth*TileSizeX + ui.InfoPanelDefaultWidth*TextSizeX
+	WindowSizeY   = ui.CameraDefaultHeight * TileSizeY
 	Title         = "Château Ramstein"
 	Font          = "UbuntuMono.ttf"
-	FontSize      = 24
-	CellPixelSize = FontSize
+	CellPixelSize = 10
+	TileSizeX     = 2
+	TileSizeY     = 2
+	TextSizeX     = 2
+	TextSizeY     = 3
 )
 
 func init() {
 
 	State = loadState()
 
-	if State.game == nil {
-		State.game = g.InitGame()
+	if State.Game == nil {
+		State.Game = g.InitGame()
 	}
 
-	State.ui = ui.InitUI(State.game)
+	State.UI = ui.InitUI(State.Game)
 
 	blt.Open()
 
@@ -48,18 +50,17 @@ func init() {
 	cellsize := "cellsize=" + strconv.Itoa(CellPixelSize) + "x" + strconv.Itoa(CellPixelSize)
 	window := "window: " + size + "," + title + "," + cellsize
 
-	fontSize := "size=" + strconv.Itoa(FontSize)
-	font := "font: " + Font + ", " + fontSize
+	input := "input.filter = [keyboard, mouse]"
 
-	fmt.Println(State)
-
-	blt.Set(window + "; " + font)
+	blt.Set(window + "; " + input)
+	blt.Set("text font: " + Font + ",size=16,spacing=1x2;")
+	blt.Set("tile font: " + Font + ",size=18;")
 
 }
 
 func main() {
 
-	ui.RenderAll(State.game, State.ui)
+	ui.RenderAll(State.Game, State.UI)
 
 	for {
 
@@ -67,12 +68,16 @@ func main() {
 		key := blt.Read()
 
 		if key != blt.TK_CLOSE {
-			handleInput(key)
+			if key == blt.TK_S {
+				saveState()
+			} else {
+				ui.HandleInput(key, State.Game, State.UI)
+			}
 		} else {
 			break
 		}
 
-		ui.RenderAll(State.game, State.ui)
+		ui.RenderAll(State.Game, State.UI)
 
 	}
 
@@ -119,18 +124,4 @@ func loadState() *FullState {
 	fmt.Println("LOAD END")
 	runtime.UnlockOSThread()
 	return &state
-}
-
-func handleInput(key int) {
-	switch key {
-	case blt.TK_RIGHT:
-	case blt.TK_LEFT:
-	case blt.TK_UP:
-	case blt.TK_DOWN:
-	case blt.TK_S:
-		saveState()
-	case blt.TK_L:
-		loadState()
-	}
-
 }
