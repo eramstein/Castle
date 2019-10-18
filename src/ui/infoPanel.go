@@ -4,8 +4,8 @@ import (
 	blt "bearlibterminal"
 )
 
-func renderInfoPanel() {
-	xStart := CameraDefaultWidth * 2
+func renderInfoPanel(texts []*UiElement, buttons []*UiElement) {
+	xStart := InforPanelStart
 	xEnd := xStart + InfoPanelDefaultWidth*2
 	yEnd := CameraDefaultHeight * 3
 
@@ -19,4 +19,7 @@ func renderInfoPanel() {
 	_, h := blt.MeasureExt(InfoPanelDefaultWidth*2, 100, datext)
 	blt.PrintExt(xStart+1, 1, InfoPanelDefaultWidth*2, h, blt.TK_ALIGN_MIDDLE, datext)
 	blt.BkColor(0)
+
+	renderElements(texts)
+	renderElements(buttons)
 }

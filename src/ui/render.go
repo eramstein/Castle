@@ -16,5 +16,5 @@ func RenderAll(gs *g.State, ui *State) {
 	blt.Clear()
 	renderMap(ui.Camera, gs.World)
 	renderPlayer(ui.Camera, gs.Player)
-	renderInfoPanel()
+	renderInfoPanel(ui.Texts, ui.Buttons)
 }

@@ -4,18 +4,19 @@ import (
 	g "github.com/castle/src/game"
 )
 
-const (
-	InfoPanelDefaultWidth = 30
-	CameraDefaultWidth    = 61
-	CameraDefaultHeight   = 61
-)
-
 type State struct {
-	Camera *Camera
+	Camera  *Camera
+	Texts   []*UiElement
+	Buttons []*UiElement
 }
 
 type Camera struct {
 	Width  int
 	Height int
 	Pos    *g.Pos
+}
+
+type Action struct {
+	name string
+	data int
 }

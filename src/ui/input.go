@@ -2,7 +2,6 @@ package ui
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 
 	g "github.com/castle/src/game"
 )
@@ -19,7 +18,7 @@ func HandleInput(key int, gs *g.State, ui *State) {
 		g.CmdMovePlayer(gs, 0, 1, 0)
 
 	case blt.TK_MOUSE_LEFT:
-		fmt.Println(blt.State(blt.TK_MOUSE_X))
+		handleButtonsClick(gs, ui, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
 	}
 
 }
