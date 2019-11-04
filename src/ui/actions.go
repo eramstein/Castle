@@ -1,14 +1,15 @@
 package ui
 
 import (
-	g "github.com/castle/src/game"
+	cmd "github.com/castle/src/game/commands"
+	m "github.com/castle/src/game/model"
 	"github.com/davecgh/go-spew/spew"
 )
 
-func handleAction(gs *g.State, action *Action) {
+func handleAction(gs *m.State, action *Action) {
 	spew.Dump(action)
-	switch action.name {
+	switch action.Name {
 	case "movePlayer":
-		g.CmdMovePlayer(gs, 1, 0, 0)
+		cmd.MovePlayer(gs, 1, 0, 0)
 	}
 }

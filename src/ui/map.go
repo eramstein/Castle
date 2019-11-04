@@ -3,10 +3,10 @@ package ui
 import (
 	blt "bearlibterminal"
 
-	g "github.com/castle/src/game"
+	m "github.com/castle/src/game/model"
 )
 
-func renderMap(camera *Camera, world *g.World) {
+func renderMap(camera *Camera, world *m.World) {
 	tiles := world.Regions[camera.Pos.Region].Tiles[camera.Pos.Z]
 	for x := 0; x < camera.Width; x++ {
 		columnIndex := camera.Pos.X - int(camera.Width/2) + x
@@ -19,7 +19,7 @@ func renderMap(camera *Camera, world *g.World) {
 			if rowIndex < 0 || rowIndex >= len(column) {
 				continue
 			}
-			if tiles[rowIndex][columnIndex].Surface == g.SurfaceRock {
+			if tiles[rowIndex][columnIndex].Surface == m.SurfaceRock {
 				blt.Color(blt.ColorFromName("gray"))
 				blt.Print(x*2, y*2, "[font=tile]#[/font]")
 			} else {
@@ -30,7 +30,7 @@ func renderMap(camera *Camera, world *g.World) {
 	}
 }
 
-func renderPlayer(camera *Camera, player *g.Player) {
+func renderPlayer(camera *Camera, player *m.Player) {
 	camX := int(camera.Width / 2)
 	camY := int(camera.Height / 2)
 	x := camX + player.Pos.X - camera.Pos.X

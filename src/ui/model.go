@@ -1,7 +1,7 @@
 package ui
 
 import (
-	g "github.com/castle/src/game"
+	m "github.com/castle/src/game/model"
 )
 
 type State struct {
@@ -13,10 +13,10 @@ type State struct {
 type Camera struct {
 	Width  int
 	Height int
-	Pos    *g.Pos
+	Pos    *m.Pos
 }
 
 type Action struct {
-	name string
-	data int
+	Name string
+	Data int
 }

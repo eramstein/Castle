@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strconv"
 
-	g "github.com/castle/src/game"
+	m "github.com/castle/src/game/model"
 )
 
 var i = 0
 
-func RenderAll(gs *g.State, ui *State) {
+func RenderAll(gs *m.State, ui *State) {
 	i++
 	fmt.Println("render all " + strconv.Itoa(i))
 	blt.Clear()

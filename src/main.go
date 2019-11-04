@@ -8,53 +8,31 @@ import (
 	"io/ioutil"
 	"log"
 	"runtime"
-	"strconv"
 
-	g "github.com/castle/src/game"
+	cmd "github.com/castle/src/game/commands"
+	m "github.com/castle/src/game/model"
 	"github.com/castle/src/ui"
 )
 
 type FullState struct {
-	Game *g.State
+	Game *m.State
 	UI   *ui.State
 }
 
 var State = &FullState{}
-
-const (
-	WindowSizeX   = ui.CameraDefaultWidth*TileSizeX + ui.InfoPanelDefaultWidth*TextSizeX
-	WindowSizeY   = ui.CameraDefaultHeight * TileSizeY
-	Title         = "Château Ramstein"
-	Font          = "UbuntuMono.ttf"
-	CellPixelSize = 10
-	TileSizeX     = 2
-	TileSizeY     = 2
-	TextSizeX     = 2
-	TextSizeY     = 3
-)
 
 func init() {
 
 	State = loadState()
 
 	if State.Game == nil {
-		State.Game = g.InitGame()
+		State.Game = cmd.InitGame()
 	}
 
 	State.UI = ui.InitUI(State.Game)
 
 	blt.Open()
-
-	size := "size=" + strconv.Itoa(WindowSizeX) + "x" + strconv.Itoa(WindowSizeY)
-	title := "title='" + Title + "'"
-	cellsize := "cellsize=" + strconv.Itoa(CellPixelSize) + "x" + strconv.Itoa(CellPixelSize)
-	window := "window: " + size + "," + title + "," + cellsize
-
-	input := "input.filter = [keyboard, mouse]"
-
-	blt.Set(window + "; " + input)
-	blt.Set("text font: " + Font + ",size=16,spacing=1x2;")
-	blt.Set("tile font: " + Font + ",size=18;")
+	blt.Set(ui.BltConfig)
 
 }
 
@@ -69,7 +47,7 @@ func main() {
 
 		if key != blt.TK_CLOSE {
 			if key == blt.TK_S {
-				saveState()
+				saveState(State)
 			} else {
 				ui.HandleInput(key, State.Game, State.UI)
 			}
@@ -84,12 +62,12 @@ func main() {
 	blt.Close()
 }
 
-func saveState() {
+func saveState(state *FullState) {
 	runtime.LockOSThread()
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 
-	err := enc.Encode(State)
+	err := enc.Encode(state)
 	if err != nil {
 		fmt.Println("PANIC ENCODE")
 		panic(err)

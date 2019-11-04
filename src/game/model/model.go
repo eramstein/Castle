@@ -1,4 +1,4 @@
-package game
+package model
 
 type State struct {
 	Player *Player
@@ -10,4 +10,8 @@ type Pos struct {
 	X      int
 	Y      int
 	Z      int
+}
+
+type Player struct {
+	Pos *Pos
 }

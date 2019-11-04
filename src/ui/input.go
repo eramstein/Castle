@@ -3,19 +3,20 @@ package ui
 import (
 	blt "bearlibterminal"
 
-	g "github.com/castle/src/game"
+	cmd "github.com/castle/src/game/commands"
+	m "github.com/castle/src/game/model"
 )
 
-func HandleInput(key int, gs *g.State, ui *State) {
+func HandleInput(key int, gs *m.State, ui *State) {
 	switch key {
 	case blt.TK_RIGHT:
-		g.CmdMovePlayer(gs, 1, 0, 0)
+		cmd.MovePlayer(gs, 1, 0, 0)
 	case blt.TK_LEFT:
-		g.CmdMovePlayer(gs, -1, 0, 0)
+		cmd.MovePlayer(gs, -1, 0, 0)
 	case blt.TK_UP:
-		g.CmdMovePlayer(gs, 0, -1, 0)
+		cmd.MovePlayer(gs, 0, -1, 0)
 	case blt.TK_DOWN:
-		g.CmdMovePlayer(gs, 0, 1, 0)
+		cmd.MovePlayer(gs, 0, 1, 0)
 
 	case blt.TK_MOUSE_LEFT:
 		handleButtonsClick(gs, ui, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))

@@ -4,7 +4,7 @@ import (
 	blt "bearlibterminal"
 	"fmt"
 
-	g "github.com/castle/src/game"
+	m "github.com/castle/src/game/model"
 )
 
 type UiElement struct {
@@ -19,7 +19,7 @@ type UiElement struct {
 	OnRightClick *Action
 }
 
-func (b UiElement) onClick(gs *g.State) {
+func (b UiElement) onClick(gs *m.State) {
 	handleAction(gs, b.OnLeftClick)
 }
 
@@ -36,7 +36,7 @@ func renderElements(elements []*UiElement) {
 	}
 }
 
-func handleButtonsClick(gs *g.State, ui *State, x, y int) {
+func handleButtonsClick(gs *m.State, ui *State, x, y int) {
 	infoCellX := x - InforPanelStart
 	fmt.Println(infoCellX, y)
 	for _, b := range ui.Buttons {

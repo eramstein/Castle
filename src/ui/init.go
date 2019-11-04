@@ -1,10 +1,10 @@
 package ui
 
 import (
-	g "github.com/castle/src/game"
+	m "github.com/castle/src/game/model"
 )
 
-func InitUI(gameState *g.State) *State {
+func InitUI(gameState *m.State) *State {
 	var player = gameState.Player
 	var state = &State{
 		Camera: &Camera{
@@ -33,8 +33,8 @@ func InitUI(gameState *g.State) *State {
 				Color:      ColorRed,
 				Background: ColorWhite,
 				OnLeftClick: &Action{
-					name: "movePlayer",
-					data: 1,
+					Name: "movePlayer",
+					Data: 1,
 				},
 			},
 		},
