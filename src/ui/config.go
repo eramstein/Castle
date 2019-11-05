@@ -8,24 +8,28 @@ const (
 	CellPixelSize         = 10
 	TileSizeX             = 2
 	TileSizeY             = 2
-	TextSizeX             = 2
+	TextSizeX             = 1
 	TextSizeY             = 3
-	InfoPanelDefaultWidth = 30
+	InfoPanelDefaultWidth = 60
 	CameraDefaultWidth    = 61
 	CameraDefaultHeight   = 61
-	InforPanelStart       = CameraDefaultWidth * 2
+	InforPanelStart       = CameraDefaultWidth * TileSizeX
 	WindowSizeX           = CameraDefaultWidth*TileSizeX + InfoPanelDefaultWidth*TextSizeX
 	WindowSizeY           = CameraDefaultHeight * TileSizeY
 )
 
 const (
-	ColorWhite = iota
-	ColorRed   = iota
+	ColorWhite    = iota
+	ColorRed      = iota
+	ColorWhitish  = iota
+	ColorBlackish = iota
 )
 
 var Colors = map[int]string{
-	ColorWhite: "#FFFFFF",
-	ColorRed:   "#FF0000",
+	ColorWhite:    "#FFFFFF",
+	ColorWhitish:  "#FCFCFC",
+	ColorBlackish: "#333333",
+	ColorRed:      "#FF0000",
 }
 
 var size = "size=" + strconv.Itoa(WindowSizeX) + "x" + strconv.Itoa(WindowSizeY)

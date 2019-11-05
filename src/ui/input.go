@@ -8,6 +8,7 @@ import (
 )
 
 func HandleInput(key int, gs *m.State, ui *State) {
+
 	switch key {
 	case blt.TK_RIGHT:
 		cmd.MovePlayer(gs, 1, 0, 0)

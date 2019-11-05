@@ -5,9 +5,11 @@ import (
 )
 
 type State struct {
-	Camera  *Camera
-	Texts   []*UiElement
-	Buttons []*UiElement
+	Screen        int
+	Camera        *Camera
+	Texts         []*UiElement
+	Buttons       []*UiElement
+	EntityDetails Entity
 }
 
 type Camera struct {
@@ -17,6 +19,21 @@ type Camera struct {
 }
 
 type Action struct {
-	Name string
-	Data int
+	Name       string
+	Data       int
+	EntityType int
+	Entity     int
 }
+
+type Entity struct {
+	ID   int
+	Type int
+}
+
+const (
+	ScreenMap = iota
+)
+
+const (
+	EntityTypeRegion = 1
+)

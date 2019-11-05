@@ -2,7 +2,6 @@ package ui
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 
 	m "github.com/castle/src/game/model"
 )
@@ -19,15 +18,18 @@ type UiElement struct {
 	OnRightClick *Action
 }
 
-func (b UiElement) onClick(gs *m.State) {
-	handleAction(gs, b.OnLeftClick)
+func (b UiElement) onClick(gs *m.State, ui *State) {
+	handleAction(gs, ui, b.OnLeftClick)
 }
 
 func (e UiElement) draw() {
-	xStart := InforPanelStart
-	blt.Color(blt.ColorFromName(Colors[e.Color]))
-	datext := "[font=text]" + e.Text + "[/font]"
-	blt.Print(xStart+e.X, e.Y, datext)
+	color := ColorBlackish
+	if e.Color != 0 {
+		color = e.Color
+	}
+	blt.Color(blt.ColorFromName(Colors[color]))
+	text := "[font=text]" + e.Text + "[/font]"
+	blt.PrintExt(e.X, e.Y, e.Width, e.Height, blt.TK_ALIGN_MIDDLE, text)
 }
 
 func renderElements(elements []*UiElement) {
@@ -37,11 +39,9 @@ func renderElements(elements []*UiElement) {
 }
 
 func handleButtonsClick(gs *m.State, ui *State, x, y int) {
-	infoCellX := x - InforPanelStart
-	fmt.Println(infoCellX, y)
 	for _, b := range ui.Buttons {
-		if b.X <= infoCellX && b.X+b.Width >= infoCellX && b.Y <= y && b.Y+b.Height >= y {
-			b.onClick(gs)
+		if b.X <= x && b.X+b.Width >= x && b.Y <= y && b.Y+b.Height >= y {
+			b.onClick(gs, ui)
 		}
 	}
 }
