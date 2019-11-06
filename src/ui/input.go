@@ -9,7 +9,15 @@ import (
 
 func HandleInput(key int, gs *m.State, ui *State) {
 
+	if ui.Screen == ScreenMap {
+		handleScreenMapInputs(key, gs, ui)
+	}
+
+}
+
+func handleScreenMapInputs(key int, gs *m.State, ui *State) {
 	switch key {
+
 	case blt.TK_RIGHT:
 		cmd.MovePlayer(gs, 1, 0, 0)
 	case blt.TK_LEFT:
@@ -20,7 +28,12 @@ func HandleInput(key int, gs *m.State, ui *State) {
 		cmd.MovePlayer(gs, 0, 1, 0)
 
 	case blt.TK_MOUSE_LEFT:
-		handleButtonsClick(gs, ui, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
-	}
+		clickedOnMap, x, y := tileAtCoordinates(ui.Camera, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
+		if clickedOnMap {
+			setInfoDetails(ui, EntityTypeTile, 0, x, y)
+		} else {
+			handleButtonsClick(gs, ui, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
+		}
 
+	}
 }

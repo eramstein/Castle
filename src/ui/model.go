@@ -26,8 +26,10 @@ type Action struct {
 }
 
 type Entity struct {
-	ID   int
-	Type int
+	ID    int
+	Type  int
+	Data1 int
+	Data2 int
 }
 
 const (
@@ -36,4 +38,5 @@ const (
 
 const (
 	EntityTypeRegion = 1
+	EntityTypeTile   = 2
 )

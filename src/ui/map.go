@@ -3,6 +3,7 @@ package ui
 import (
 	blt "bearlibterminal"
 
+	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
 )
 
@@ -37,4 +38,23 @@ func renderPlayer(camera *Camera, player *m.Player) {
 	y := camY + player.Pos.Y - camera.Pos.Y
 	blt.Color(blt.ColorFromName("white"))
 	blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]@[/font]")
+}
+
+func tileAtCoordinates(cam *Camera, x, y int) (bool, int, int) {
+	tileOnScreenX := int(x / TileSizeX)
+	if tileOnScreenX >= CameraDefaultWidth {
+		return false, 0, 0
+	}
+	tileDiffCameraX := tileOnScreenX - int(cam.Width/2)
+	tileOnScreenY := int(y / TileSizeY)
+	tileDiffCameraY := tileOnScreenY - int(cam.Height/2)
+
+	tileX := cam.Pos.X + tileDiffCameraX
+	tileY := cam.Pos.Y + tileDiffCameraY
+
+	if tileX < 0 || tileX >= c.RegionWidth || tileY < 0 || tileY >= c.RegionHeight {
+		return false, tileX, tileY
+	}
+
+	return true, tileX, tileY
 }

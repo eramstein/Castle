@@ -35,6 +35,11 @@ func setInfoPanel(ui *State, gs *m.State) {
 	if ui.EntityDetails.Type == EntityTypeRegion {
 		setInfoPanelRegionDetails(ui, region, &nextRow)
 	}
+
+	// tile details
+	if ui.EntityDetails.Type == EntityTypeTile {
+		setInfoPanelTileDetails(ui, region, ui.EntityDetails.Data1, ui.EntityDetails.Data2, &nextRow)
+	}
 }
 
 func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, color int, leftClick *Action) {
@@ -60,5 +65,11 @@ func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, col
 
 func setInfoPanelRegionDetails(ui *State, region *m.Region, nextRow *int) {
 	text := region.Description
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, nil)
+}
+
+func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow *int) {
+	tile := region.Tiles[ui.Camera.Pos.Z][x][y]
+	text := m.SurfaceNames[tile.Surface]
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, nil)
 }
