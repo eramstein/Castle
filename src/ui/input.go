@@ -27,6 +27,23 @@ func handleScreenMapInputs(key int, gs *m.State, ui *State) {
 	case blt.TK_DOWN:
 		cmd.MovePlayer(gs, 0, 1, 0)
 
+	case blt.TK_KP_1:
+		cmd.MovePlayer(gs, -1, 1, 0)
+	case blt.TK_KP_2:
+		cmd.MovePlayer(gs, 0, 1, 0)
+	case blt.TK_KP_3:
+		cmd.MovePlayer(gs, 1, 1, 0)
+	case blt.TK_KP_4:
+		cmd.MovePlayer(gs, -1, 0, 0)
+	case blt.TK_KP_6:
+		cmd.MovePlayer(gs, 1, 0, 0)
+	case blt.TK_KP_7:
+		cmd.MovePlayer(gs, -1, -1, 0)
+	case blt.TK_KP_8:
+		cmd.MovePlayer(gs, 0, -1, 0)
+	case blt.TK_KP_9:
+		cmd.MovePlayer(gs, 1, -1, 0)
+
 	case blt.TK_MOUSE_LEFT:
 		clickedOnMap, x, y := tileAtCoordinates(ui.Camera, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
 		if clickedOnMap {

@@ -9,4 +9,5 @@ func MovePlayer(gs *m.State, x, y, z int) {
 	player.Pos.X += x
 	player.Pos.Y += y
 	player.Pos.Z += z
+	gs.Time += 30
 }

@@ -30,6 +30,8 @@ func setInfoPanel(ui *State, gs *m.State) {
 	action := &Action{Name: "toggleInfoDetails", EntityType: EntityTypeRegion, Entity: ui.Camera.Pos.Region}
 	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
 	// time
+	text = getTimeString(gs.Time)
+	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
 
 	// region details
 	if ui.EntityDetails.Type == EntityTypeRegion {

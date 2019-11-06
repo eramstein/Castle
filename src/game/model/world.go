@@ -14,6 +14,13 @@ type Tile struct {
 	Surface int
 }
 
+type Pos struct {
+	Region int
+	X      int
+	Y      int
+	Z      int
+}
+
 const (
 	SurfaceGround = 1
 	SurfaceRock   = 2
