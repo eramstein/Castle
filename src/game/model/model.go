@@ -5,7 +5,3 @@ type State struct {
 	World  *World
 	Time   int
 }
-
-type Player struct {
-	Pos *Pos
-}
