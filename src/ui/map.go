@@ -7,7 +7,7 @@ import (
 	m "github.com/castle/src/game/model"
 )
 
-func renderMap(camera *Camera, world *m.World) {
+func renderMap(camera Camera, world *m.World) {
 	tiles := world.Regions[camera.Pos.Region].Tiles[camera.Pos.Z]
 	for x := 0; x < camera.Width; x++ {
 		columnIndex := camera.Pos.X - int(camera.Width/TileSizeX) + x
@@ -31,7 +31,7 @@ func renderMap(camera *Camera, world *m.World) {
 	}
 }
 
-func renderPlayer(camera *Camera, player *m.Player) {
+func renderPlayer(camera Camera, player *m.Player) {
 	camX := int(camera.Width / TileSizeX)
 	camY := int(camera.Height / TileSizeY)
 	x := camX + player.Pos.X - camera.Pos.X
@@ -40,17 +40,17 @@ func renderPlayer(camera *Camera, player *m.Player) {
 	blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]@[/font]")
 }
 
-func tileAtCoordinates(cam *Camera, x, y int) (bool, int, int) {
+func tileAtCoordinates(camera Camera, x, y int) (bool, int, int) {
 	tileOnScreenX := int(x / TileSizeX)
 	if tileOnScreenX >= CameraDefaultWidth {
 		return false, 0, 0
 	}
-	tileDiffCameraX := tileOnScreenX - int(cam.Width/2)
+	tileDiffCameraX := tileOnScreenX - int(camera.Width/2)
 	tileOnScreenY := int(y / TileSizeY)
-	tileDiffCameraY := tileOnScreenY - int(cam.Height/2)
+	tileDiffCameraY := tileOnScreenY - int(camera.Height/2)
 
-	tileX := cam.Pos.X + tileDiffCameraX
-	tileY := cam.Pos.Y + tileDiffCameraY
+	tileX := camera.Pos.X + tileDiffCameraX
+	tileY := camera.Pos.Y + tileDiffCameraY
 
 	if tileX < 0 || tileX >= c.RegionWidth || tileY < 0 || tileY >= c.RegionHeight {
 		return false, tileX, tileY

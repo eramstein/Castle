@@ -14,8 +14,8 @@ type UiElement struct {
 	Color        int
 	Background   int
 	Text         string
-	OnLeftClick  *Action
-	OnRightClick *Action
+	OnLeftClick  Action
+	OnRightClick Action
 }
 
 func (b UiElement) onClick(gs *m.State, ui *State) {
@@ -32,7 +32,7 @@ func (e UiElement) draw() {
 	blt.PrintExt(e.X, e.Y, e.Width, e.Height, blt.TK_ALIGN_MIDDLE, text)
 }
 
-func renderElements(elements []*UiElement) {
+func renderElements(elements []UiElement) {
 	for _, e := range elements {
 		e.draw()
 	}

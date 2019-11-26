@@ -1,16 +1,16 @@
 package model
 
 type Character struct {
-	Pos            *Pos
-	Atts           *Attributes
-	Wounds         []*Wound
-	Diseases       []*Disease
-	Physical       *PhysicalState
-	Mental         *MentalState
-	Needs          *NeedsState
-	Desires        *DesiresState
-	NeedsProfile   *NeedsProfile
-	DesiresProfile *DesiresProfile
+	Pos            Pos
+	Atts           Attributes
+	Wounds         []Wound
+	Diseases       []Disease
+	Physical       PhysicalState
+	Mental         MentalState
+	Needs          NeedsState
+	Desires        DesiresState
+	NeedsProfile   NeedsProfile
+	DesiresProfile DesiresProfile
 }
 
 type Attributes struct {
@@ -55,11 +55,11 @@ type PhysicalState struct {
 	Alive         bool
 	Energy        int
 	Focus         int
-	Nutrition     *NutritionState
+	Nutrition     NutritionState
 	Hydratation   int
 	Alcoolisation int
 	Oxygenation   int
-	Vitamins      *VitaminsState
+	Vitamins      VitaminsState
 }
 
 type NutritionState struct {

@@ -5,9 +5,9 @@ import (
 )
 
 func MovePlayer(gs *m.State, x, y, z int) {
-	player := gs.Player
-	player.Pos.X += x
-	player.Pos.Y += y
-	player.Pos.Z += z
+	var pos = &gs.Player.Pos
+	pos.X += x
+	pos.Y += y
+	pos.Z += z
 	gs.Time += 30
 }

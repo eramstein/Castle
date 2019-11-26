@@ -6,9 +6,9 @@ import (
 
 type State struct {
 	Screen        int
-	Camera        *Camera
-	Texts         []*UiElement
-	Buttons       []*UiElement
+	Camera        Camera
+	Texts         []UiElement
+	Buttons       []UiElement
 	EntityDetails Entity
 }
 

@@ -1,5 +1,5 @@
 package config
 
 const WorldSize = 5
-const RegionWidth = 100
-const RegionHeight = 100
+const RegionWidth = 250
+const RegionHeight = 250

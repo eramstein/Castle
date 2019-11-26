@@ -23,6 +23,7 @@ var State = &FullState{}
 
 func init() {
 
+	runtime.LockOSThread()
 	State = loadState()
 
 	if State.Game == nil {
@@ -63,7 +64,7 @@ func main() {
 }
 
 func saveState(state *FullState) {
-	runtime.LockOSThread()
+
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 
@@ -78,11 +79,11 @@ func saveState(state *FullState) {
 		fmt.Println("PANIC SAVE")
 		panic(err)
 	}
-	runtime.UnlockOSThread()
+
 }
 
 func loadState() *FullState {
-	runtime.LockOSThread()
+
 	fmt.Println("LOAD START")
 	b, err := ioutil.ReadFile("save.txt")
 	if err != nil {
@@ -100,6 +101,6 @@ func loadState() *FullState {
 		log.Fatal("decode error 1:", err)
 	}
 	fmt.Println("LOAD END")
-	runtime.UnlockOSThread()
+
 	return &state
 }

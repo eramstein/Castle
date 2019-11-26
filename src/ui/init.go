@@ -8,12 +8,12 @@ func InitUI(gameState *m.State) *State {
 	var player = gameState.Player
 	var state = &State{
 		Screen: ScreenMap,
-		Camera: &Camera{
+		Camera: Camera{
 			Width:  CameraDefaultWidth,
 			Height: CameraDefaultHeight,
-			Pos:    player.Pos,
+			Pos:    &player.Pos,
 		},
-		Texts: []*UiElement{
+		Texts: []UiElement{
 			// &UiElement{
 			// 	X:          5,
 			// 	Y:          30,
@@ -24,7 +24,7 @@ func InitUI(gameState *m.State) *State {
 			// 	Background: ColorWhitish,
 			// },
 		},
-		Buttons: []*UiElement{
+		Buttons: []UiElement{
 			// &UiElement{
 			// 	X:          5,
 			// 	Y:          40,

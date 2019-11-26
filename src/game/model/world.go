@@ -1,13 +1,13 @@
 package model
 
 type World struct {
-	Regions []*Region
+	Regions []Region
 }
 
 type Region struct {
 	Name        string
 	Description string
-	Tiles       [][][]*Tile
+	Tiles       [][][]Tile
 }
 
 type Tile struct {

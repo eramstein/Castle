@@ -7,29 +7,29 @@ import (
 
 func GetInitialWorld() *m.World {
 
-	regions := make([]*m.Region, c.WorldSize)
+	regions := make([]m.Region, c.WorldSize)
 
 	for i := 0; i < c.WorldSize; i++ {
 
-		tiles := make([][]*m.Tile, c.RegionWidth)
+		tiles := make([][]m.Tile, c.RegionWidth)
 		for i := range tiles {
-			tiles[i] = make([]*m.Tile, c.RegionHeight)
+			tiles[i] = make([]m.Tile, c.RegionHeight)
 		}
 
 		for x := 0; x < c.RegionWidth; x++ {
 			for y := 0; y < c.RegionHeight; y++ {
 				if x == 0 || x == c.RegionWidth-1 || y == 0 || y == c.RegionHeight-1 {
-					tiles[x][y] = &m.Tile{Surface: m.SurfaceRock}
+					tiles[x][y] = m.Tile{Surface: m.SurfaceRock}
 				} else {
-					tiles[x][y] = &m.Tile{Surface: m.SurfaceGround}
+					tiles[x][y] = m.Tile{Surface: m.SurfaceGround}
 				}
 			}
 		}
 
-		plane := make([][][]*m.Tile, 1)
+		plane := make([][][]m.Tile, 1)
 		plane[0] = tiles
 
-		regions[i] = &m.Region{
+		regions[i] = m.Region{
 			Name: "A beautiful region",
 			Description: `
 			The Vosges department is one of the original 83 departments of France, created on February 9, 1790 during the French Revolution.[4] It was made of territories that had been part of the province of Lorraine. In German it is referred to as Vogesen.

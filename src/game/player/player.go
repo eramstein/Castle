@@ -6,13 +6,13 @@ import (
 
 func GetInitialPlayer() *m.Player {
 	return &m.Player{
-		Pos: &m.Pos{
+		Pos: m.Pos{
 			X:      15,
 			Y:      15,
 			Z:      0,
 			Region: 0,
 		},
-		Atts: &m.Attributes{
+		Atts: m.Attributes{
 			Strength:     0,
 			Agility:      0,
 			Dexterity:    0,
@@ -27,11 +27,11 @@ func GetInitialPlayer() *m.Player {
 		},
 		Wounds:   nil,
 		Diseases: nil,
-		Physical: &m.PhysicalState{
+		Physical: m.PhysicalState{
 			Alive:  false,
 			Energy: 0,
 			Focus:  0,
-			Nutrition: &m.NutritionState{
+			Nutrition: m.NutritionState{
 				Total:    0,
 				Lipids:   0,
 				Glucids:  0,
@@ -40,18 +40,18 @@ func GetInitialPlayer() *m.Player {
 			Hydratation:   0,
 			Alcoolisation: 0,
 			Oxygenation:   0,
-			Vitamins: &m.VitaminsState{
+			Vitamins: m.VitaminsState{
 				C: 0,
 				D: 0,
 			},
 		},
-		Needs: &m.NeedsState{
+		Needs: m.NeedsState{
 			Hunger: 0,
 			Thirst: 0,
 			Sleep:  0,
 			Warmth: 0,
 		},
-		NeedsProfile: &m.NeedsProfile{
+		NeedsProfile: m.NeedsProfile{
 			Hunger: 100,
 			Thirst: 100,
 			Sleep:  100,

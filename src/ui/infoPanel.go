@@ -11,7 +11,7 @@ const (
 	InfoPanelTopMargin  = 1
 )
 
-func renderInfoPanel(texts []*UiElement, buttons []*UiElement) {
+func renderInfoPanel(texts []UiElement, buttons []UiElement) {
 
 	blt.BkColor(blt.ColorFromName(Colors[ColorWhitish]))
 	blt.ClearArea(InforPanelStart, 0, InfoPanelDefaultWidth, CameraDefaultHeight*TileSizeY)
@@ -23,11 +23,11 @@ func renderInfoPanel(texts []*UiElement, buttons []*UiElement) {
 func setInfoPanel(ui *State, gs *m.State) {
 	nextRow := InfoPanelTopMargin
 
-	region := gs.World.Regions[ui.Camera.Pos.Region]
+	region := &gs.World.Regions[ui.Camera.Pos.Region]
 
 	// region name
 	text := region.Name
-	action := &Action{Name: "toggleInfoDetails", EntityType: EntityTypeRegion, Entity: ui.Camera.Pos.Region}
+	action := Action{Name: "toggleInfoDetails", EntityType: EntityTypeRegion, Entity: ui.Camera.Pos.Region}
 	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
 	// time
 	text = getTimeString(gs.Time)
@@ -44,11 +44,11 @@ func setInfoPanel(ui *State, gs *m.State) {
 	}
 }
 
-func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, color int, leftClick *Action) {
+func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, color int, leftClick Action) {
 	w, h := blt.MeasureExt(InfoPanelDefaultWidth*TextSizeX, 100, text)
 	width := w * TextSizeX
 	height := h * TextSizeY
-	element := &UiElement{
+	element := UiElement{
 		X:           InforPanelStart + offset,
 		Y:           *nextRow,
 		Height:      height,
@@ -57,7 +57,7 @@ func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, col
 		Text:        text,
 		OnLeftClick: leftClick,
 	}
-	if leftClick != nil {
+	if leftClick.Name != "" {
 		ui.Buttons = append(ui.Buttons, element)
 	} else {
 		ui.Texts = append(ui.Texts, element)
@@ -67,11 +67,11 @@ func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, col
 
 func setInfoPanelRegionDetails(ui *State, region *m.Region, nextRow *int) {
 	text := region.Description
-	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, nil)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 }
 
 func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow *int) {
 	tile := region.Tiles[ui.Camera.Pos.Z][x][y]
 	text := m.SurfaceNames[tile.Surface]
-	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, nil)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 }

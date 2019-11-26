@@ -8,9 +8,7 @@ import (
 
 func InitGame() *m.State {
 	var state = &m.State{
-		Player: nil,
-		World:  nil,
-		Time:   0,
+		Time: 0,
 	}
 	state.Player = player.GetInitialPlayer()
 	state.World = world.GetInitialWorld()
