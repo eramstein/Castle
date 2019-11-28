@@ -11,6 +11,7 @@ type Character struct {
 	Desires        DesiresState
 	NeedsProfile   NeedsProfile
 	DesiresProfile DesiresProfile
+	Task           CharacterTask
 }
 
 type Attributes struct {

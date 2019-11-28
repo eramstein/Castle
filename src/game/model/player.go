@@ -8,4 +8,5 @@ type Player struct {
 	Physical     PhysicalState
 	Needs        NeedsState
 	NeedsProfile NeedsProfile
+	Task         CharacterTask
 }
