@@ -19,9 +19,9 @@ func GetInitialWorld() *m.World {
 		for x := 0; x < c.RegionWidth; x++ {
 			for y := 0; y < c.RegionHeight; y++ {
 				if x == 0 || x == c.RegionWidth-1 || y == 0 || y == c.RegionHeight-1 {
-					tiles[x][y] = m.Tile{Surface: m.SurfaceRock}
+					tiles[x][y] = m.Tile{Surface: m.SurfaceRock, Volume: m.VolumeRock}
 				} else {
-					tiles[x][y] = m.Tile{Surface: m.SurfaceGround}
+					tiles[x][y] = m.Tile{Surface: m.SurfaceGround, Volume: m.VolumeAir}
 				}
 			}
 		}

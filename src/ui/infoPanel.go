@@ -3,6 +3,7 @@ package ui
 import (
 	blt "bearlibterminal"
 
+	cmd "github.com/castle/src/game/commands"
 	m "github.com/castle/src/game/model"
 )
 
@@ -42,6 +43,9 @@ func setInfoPanel(ui *State, gs *m.State) {
 	if ui.EntityDetails.Type == EntityTypeTile {
 		setInfoPanelTileDetails(ui, region, ui.EntityDetails.Data1, ui.EntityDetails.Data2, &nextRow)
 	}
+
+	// command log
+	setInfoPanelLog(ui, gs, &nextRow)
 }
 
 func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, color int, leftClick Action) {
@@ -74,4 +78,12 @@ func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow 
 	tile := region.Tiles[ui.Camera.Pos.Z][x][y]
 	text := m.SurfaceNames[tile.Surface]
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+}
+
+func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
+	for _, logVal := range gs.Log {
+		text := logVal.Text
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
+	}
+	cmd.ClearLog(gs)
 }

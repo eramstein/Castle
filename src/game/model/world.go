@@ -12,6 +12,7 @@ type Region struct {
 
 type Tile struct {
 	Surface int
+	Volume  int
 }
 
 type Pos struct {
@@ -22,11 +23,26 @@ type Pos struct {
 }
 
 const (
-	SurfaceGround = 1
-	SurfaceRock   = 2
+	SurfaceGround = 0
+	SurfaceRock   = 1
 )
 
 var SurfaceNames = map[int]string{
-	1: "Ground",
-	2: "Rock",
+	0: "Ground",
+	1: "Rock",
+}
+
+const (
+	VolumeAir  = 0
+	VolumeRock = 1
+)
+
+var VolumeNames = map[int]string{
+	0: "Air",
+	1: "Rock",
+}
+
+var VolumeBlocking = map[int]bool{
+	0: false,
+	1: true,
 }

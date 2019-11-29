@@ -1,8 +1,6 @@
 package simTasks
 
 import (
-	"fmt"
-
 	char "github.com/castle/src/game/character"
 	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
@@ -17,7 +15,7 @@ func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
 			charTask = gs.Characters[task.Agent].Task
 		}
 	}
-	fmt.Println("task.Type", task.Type)
+
 	switch task.Type {
 	case m.TaskTypeMovement:
 		char.MoveCharacter(gs, task.Agent, charTask.Pos)

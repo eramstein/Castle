@@ -4,6 +4,7 @@ type State struct {
 	Player     *Player
 	World      *World
 	Time       int
-	SimTasks   []SimTaskSchedule // not in order
+	SimTasks   []SimTaskSchedule
 	Characters []*Character
+	Log        []LogForUI
 }
