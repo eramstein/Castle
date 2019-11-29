@@ -8,12 +8,14 @@ import (
 func GetInitialSimTasks() []m.SimTaskSchedule {
 	tasks := make([]m.SimTaskSchedule, 0)
 	tasks = append(tasks, m.SimTaskSchedule{
-		EndTime: 3600,
+		EndTime: c.UpdateNeedsFrequency,
 		Type:    m.TaskTypeUpdateNeeds,
+		Agent:   c.WorldAgentID,
 	})
 	tasks = append(tasks, m.SimTaskSchedule{
-		EndTime: 4 * 3600,
+		EndTime: c.UpdateWeatherFrequency,
 		Type:    m.TaskTypeUpdateWeather,
+		Agent:   c.WorldAgentID,
 	})
 	return tasks
 }
@@ -27,9 +29,21 @@ func AddPlayerTask(gs *m.State, task m.CharacterTask, estimatedDuration int) {
 	})
 }
 
+func AddNeedsTask(gs *m.State, time int) {
+	gs.SimTasks = append(gs.SimTasks, m.SimTaskSchedule{
+		EndTime: time,
+		Type:    m.TaskTypeUpdateNeeds,
+		Agent:   c.WorldAgentID,
+	})
+}
+
 func RunSimulation(gs *m.State, duration int) {
+	if len(gs.SimTasks) == 0 {
+		gs.Time += duration
+		return
+	}
 	taskIndex := getNextTask(gs.SimTasks)
-	if len(gs.SimTasks) == 0 || gs.SimTasks[taskIndex].EndTime > gs.Time+duration {
+	if gs.SimTasks[taskIndex].EndTime > gs.Time+duration {
 		gs.Time += duration
 		return
 	}

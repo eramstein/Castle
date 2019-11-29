@@ -2,6 +2,7 @@ package ui
 
 import (
 	blt "bearlibterminal"
+	"strconv"
 
 	cmd "github.com/castle/src/game/commands"
 	m "github.com/castle/src/game/model"
@@ -33,6 +34,8 @@ func setInfoPanel(ui *State, gs *m.State) {
 	// time
 	text = getTimeString(gs.Time)
 	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
+	// player details
+	setPlayerDetails(ui, gs.Player, &nextRow)
 
 	// region details
 	if ui.EntityDetails.Type == EntityTypeRegion {
@@ -81,9 +84,16 @@ func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow 
 }
 
 func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
-	for _, logVal := range gs.Log {
+	for _, logVal := range gs.Log.Logs {
 		text := logVal.Text
 		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
 	}
 	cmd.ClearLog(gs)
+}
+
+func setPlayerDetails(ui *State, player *m.Player, nextRow *int) {
+	text := "Faim: " + strconv.Itoa(player.Needs.Hunger)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	text = "Nutrition - Total: " + strconv.Itoa(player.Physical.Nutrition.Total)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 }

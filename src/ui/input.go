@@ -16,6 +16,13 @@ func HandleInput(key int, gs *m.State, ui *State) {
 }
 
 func handleScreenMapInputs(key int, gs *m.State, ui *State) {
+
+	if key == blt.TK_ENTER {
+		_, t := blt.ReadStr(1, 1, 100)
+		handleConsoleInput(t, gs)
+		return
+	}
+
 	switch key {
 
 	case blt.TK_RIGHT:

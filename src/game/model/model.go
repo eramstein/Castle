@@ -6,5 +6,5 @@ type State struct {
 	Time       int
 	SimTasks   []SimTaskSchedule
 	Characters []*Character
-	Log        []LogForUI
+	Log        Log
 }

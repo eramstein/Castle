@@ -13,32 +13,8 @@ func InitUI(gameState *m.State) *State {
 			Height: CameraDefaultHeight,
 			Pos:    &player.Pos,
 		},
-		Texts: []UiElement{
-			// &UiElement{
-			// 	X:          5,
-			// 	Y:          30,
-			// 	Text:       "YOYOYOYOO",
-			// 	Width:      20,
-			// 	Height:     3,
-			// 	Color:      ColorBlackish,
-			// 	Background: ColorWhitish,
-			// },
-		},
-		Buttons: []UiElement{
-			// &UiElement{
-			// 	X:          5,
-			// 	Y:          40,
-			// 	Text:       "ITSAME CLICKAME",
-			// 	Width:      20,
-			// 	Height:     3,
-			// 	Color:      ColorBlackish,
-			// 	Background: ColorWhitish,
-			// 	OnLeftClick: &Action{
-			// 		Name: "movePlayer",
-			// 		Data: 1,
-			// 	},
-			// },
-		},
+		Texts:   []UiElement{},
+		Buttons: []UiElement{},
 	}
 	return state
 }
