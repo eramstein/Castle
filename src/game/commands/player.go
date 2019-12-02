@@ -2,13 +2,10 @@ package commands
 
 import (
 	char "github.com/castle/src/game/character"
+	log "github.com/castle/src/game/log"
 	m "github.com/castle/src/game/model"
 	simTasks "github.com/castle/src/game/simTasks"
 )
-
-func Wait(gs *m.State, minutes int) {
-	simTasks.RunSimulation(gs, 60*minutes)
-}
 
 func MovePlayer(gs *m.State, x, y, z int) {
 	var pos = &gs.Player.Pos
@@ -16,7 +13,7 @@ func MovePlayer(gs *m.State, x, y, z int) {
 	// check for validity
 	valid := char.IsMoveValid(gs, targetPos)
 	if valid == false {
-		AddLog(gs, m.LogForUI{LogType: m.LogTypeImpossibleCommand, Text: "Can't move here"})
+		log.AddLog(gs, m.LogForUI{LogType: m.LogTypeImpossibleCommand, Text: "Can't move here"})
 		return
 	}
 	tile := gs.World.Regions[pos.Region].Tiles[pos.Z+z][pos.Y+y][pos.X+x]

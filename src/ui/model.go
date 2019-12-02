@@ -10,6 +10,7 @@ type State struct {
 	Texts         []UiElement
 	Buttons       []UiElement
 	EntityDetails Entity
+	BlockSim      bool
 }
 
 type Camera struct {

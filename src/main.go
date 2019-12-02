@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"runtime"
+	"time"
 
 	cmd "github.com/castle/src/game/commands"
 	m "github.com/castle/src/game/model"
@@ -20,6 +21,7 @@ type FullState struct {
 }
 
 var State = &FullState{}
+var iLoops = 0
 
 func init() {
 
@@ -51,6 +53,8 @@ func main() {
 				saveState(State)
 			} else {
 				ui.HandleInput(key, State.Game, State.UI)
+				iLoops = 0
+				loopSim()
 			}
 		} else {
 			break
@@ -61,6 +65,22 @@ func main() {
 	}
 
 	blt.Close()
+}
+
+func loopSim() {
+	iLoops++
+	if iLoops > 1000 {
+		fmt.Println("TEMP safety vs infinite sim loops")
+		return
+	}
+	ui.BlockSimIfNeeded(State.Game, State.UI)
+	if State.Game.Log.SimTimeLeft > 0 && State.UI.BlockSim == false {
+		time.Sleep(500 * time.Millisecond)
+		ui.RenderAll(State.Game, State.UI)
+		blt.Refresh()
+		cmd.ResumeSim(State.Game)
+		loopSim()
+	}
 }
 
 func saveState(state *FullState) {

@@ -1,8 +1,9 @@
 package model
 
 type Log struct {
-	SimTimeLeft int
-	Logs        []LogForUI
+	UserFeedback bool
+	SimTimeLeft  int
+	Logs         []LogForUI
 }
 
 type LogForUI struct {
@@ -12,4 +13,5 @@ type LogForUI struct {
 
 const (
 	LogTypeImpossibleCommand = 0
+	LogTypeAlert             = 1
 )

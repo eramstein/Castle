@@ -4,7 +4,6 @@ import (
 	blt "bearlibterminal"
 	"strconv"
 
-	cmd "github.com/castle/src/game/commands"
 	m "github.com/castle/src/game/model"
 )
 
@@ -86,9 +85,13 @@ func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow 
 func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
 	for _, logVal := range gs.Log.Logs {
 		text := logVal.Text
-		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
+		color := ColorBlackish
+		if logVal.LogType == m.LogTypeAlert {
+			color = ColorRed
+			text = "ACHTUNG! " + text
+		}
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, color, Action{})
 	}
-	cmd.ClearLog(gs)
 }
 
 func setPlayerDetails(ui *State, player *m.Player, nextRow *int) {
@@ -96,4 +99,8 @@ func setPlayerDetails(ui *State, player *m.Player, nextRow *int) {
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	text = "Nutrition - Total: " + strconv.Itoa(player.Physical.Nutrition.Total)
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	if player.Physical.Alive == false {
+		text = "MOURRU!"
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
+	}
 }

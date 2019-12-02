@@ -6,11 +6,8 @@ import (
 	m "github.com/castle/src/game/model"
 )
 
-var i = 0
-
 func RenderAll(gs *m.State, ui *State) {
-	i++
-	//fmt.Println("render all " + strconv.Itoa(i))
+
 	blt.Clear()
 
 	setUIElements(gs, ui)
@@ -20,6 +17,8 @@ func RenderAll(gs *m.State, ui *State) {
 		renderPlayer(ui.Camera, gs.Player)
 		renderInfoPanel(ui.Texts, ui.Buttons)
 	}
+
+	clearAlerts(gs, ui)
 
 	blt.BkColor(blt.ColorFromName("black"))
 }
