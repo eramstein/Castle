@@ -20,12 +20,21 @@ func renderMap(camera Camera, world *m.World) {
 			if rowIndex < 0 || rowIndex >= len(column) {
 				continue
 			}
-			if tiles[rowIndex][columnIndex].Surface == m.SurfaceRock {
+			tile := &tiles[columnIndex][rowIndex]
+			if tile.Surface == m.SurfaceRock {
 				blt.Color(blt.ColorFromName("gray"))
 				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]#[/font]")
 			} else {
 				blt.Color(blt.ColorFromName("brown"))
 				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile].[/font]")
+			}
+			if len(tile.Items.Food) > 0 {
+				// blt.Composition(blt.TK_ON)
+				// blt.Layer(1)
+				blt.Color(blt.ColorFromName(Colors[ColorRed]))
+				blt.Print(x*TileSizeX, y*TileSizeY, "p")
+				// blt.Layer(0)
+				// blt.Composition(blt.TK_OFF)
 			}
 		}
 	}

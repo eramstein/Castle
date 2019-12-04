@@ -13,6 +13,11 @@ type Region struct {
 type Tile struct {
 	Surface int
 	Volume  int
+	Items   TileItems
+}
+
+type TileItems struct {
+	Food []Food
 }
 
 type Pos struct {

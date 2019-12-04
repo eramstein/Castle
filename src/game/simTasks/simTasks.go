@@ -1,8 +1,6 @@
 package simTasks
 
 import (
-	"fmt"
-
 	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
 )
@@ -40,7 +38,6 @@ func AddNeedsTask(gs *m.State, time int) {
 }
 
 func RunSimulation(gs *m.State, duration int) {
-	fmt.Println("Run sim", duration)
 	if len(gs.SimTasks) == 0 {
 		gs.Time += duration
 		gs.Log.SimTimeLeft = 0
@@ -62,10 +59,8 @@ func RunSimulation(gs *m.State, duration int) {
 	gs.SimTasks = gs.SimTasks[:len(gs.SimTasks)-1]
 	// if no UI feedback needed, loop to next task with remaining time
 	if gs.Log.UserFeedback == false && remainingDuration > 0 {
-		fmt.Println("continue auto with sim")
 		RunSimulation(gs, remainingDuration)
 	} else {
-		fmt.Println("hand over to ui, remains ", remainingDuration)
 		gs.Log.SimTimeLeft = remainingDuration
 	}
 	return

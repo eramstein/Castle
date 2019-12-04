@@ -1,6 +1,8 @@
 package world
 
 import (
+	"math/rand"
+
 	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
 )
@@ -22,6 +24,12 @@ func GetInitialWorld() *m.World {
 					tiles[x][y] = m.Tile{Surface: m.SurfaceRock, Volume: m.VolumeRock}
 				} else {
 					tiles[x][y] = m.Tile{Surface: m.SurfaceGround, Volume: m.VolumeAir}
+					r := rand.Intn(100)
+					if r > 80 {
+						tiles[x][y].Items = m.TileItems{
+							Food: []m.Food{{Type: 0, Subtype: 0, Quantity: 1, Nutrition: 1}},
+						}
+					}
 				}
 			}
 		}

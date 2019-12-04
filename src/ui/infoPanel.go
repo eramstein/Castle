@@ -2,6 +2,7 @@ package ui
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 	"strconv"
 
 	m "github.com/castle/src/game/model"
@@ -42,9 +43,13 @@ func setInfoPanel(ui *State, gs *m.State) {
 	}
 
 	// tile details
+	tileDetailsX := ui.Camera.Pos.X
+	tileDetailsY := ui.Camera.Pos.Y
 	if ui.EntityDetails.Type == EntityTypeTile {
-		setInfoPanelTileDetails(ui, region, ui.EntityDetails.Data1, ui.EntityDetails.Data2, &nextRow)
+		tileDetailsX = ui.EntityDetails.Data1
+		tileDetailsY = ui.EntityDetails.Data2
 	}
+	setInfoPanelTileDetails(ui, region, tileDetailsX, tileDetailsY, &nextRow)
 
 	// command log
 	setInfoPanelLog(ui, gs, &nextRow)
@@ -71,15 +76,25 @@ func addElementToInfoPanel(ui *State, text string, nextRow *int, offset int, col
 	*nextRow += height
 }
 
+func addVerticalMargin(nextRow *int) {
+	*nextRow++
+}
+
 func setInfoPanelRegionDetails(ui *State, region *m.Region, nextRow *int) {
 	text := region.Description
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 }
 
 func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow *int) {
+	addVerticalMargin(nextRow)
 	tile := region.Tiles[ui.Camera.Pos.Z][x][y]
 	text := m.SurfaceNames[tile.Surface]
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	if len(tile.Items.Food) > 0 {
+		food := tile.Items.Food[0]
+		text := fmt.Sprintf("%d %ss", food.Quantity, m.FoodSubtypeNames[food.Subtype])
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	}
 }
 
 func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
