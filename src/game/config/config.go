@@ -1,11 +1,18 @@
 package config
 
+const PlayerAgentID = 0
 const WorldAgentID = -1
 
 const (
 	WhereInventory = iota
 	WhereFloor     = iota
 	WhereContainer = iota
+)
+
+const (
+	AgentTypeCharacter = iota
+	AgentTypeAnimal    = iota
+	AgentTypePhantom   = iota
 )
 
 const WorldSize = 5

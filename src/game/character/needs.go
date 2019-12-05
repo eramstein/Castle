@@ -6,6 +6,7 @@ import (
 	c "github.com/castle/src/game/config"
 	log "github.com/castle/src/game/log"
 	m "github.com/castle/src/game/model"
+	u "github.com/castle/src/game/utils"
 )
 
 func UpdateNeeds(gs *m.State) {
@@ -33,8 +34,15 @@ func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.Physica
 	}
 }
 
-func Eat(gs *m.State, agentID int, food m.Food, quantity int, pos m.Pos, where int) {
-	// delete food item
+func Eat(gs *m.State, agentID int, quantity int, pos m.Pos, where int, index int) {
+	switch where {
+	case c.WhereFloor:
+		slice := gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food
+		slice[index].Quantity -= quantity
+		if slice[index].Quantity <= 0 {
+			gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = nil
+		}
+	}
 	// update entity needs
-	gs.Characters[agentID].Needs.Hunger -= 10
+	gs.Characters[agentID].Needs.Hunger = u.Max(gs.Characters[agentID].Needs.Hunger-10, 0)
 }

@@ -2,12 +2,20 @@ package ui
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 
 	cmd "github.com/castle/src/game/commands"
 	m "github.com/castle/src/game/model"
 )
 
 func HandleInput(key int, gs *m.State, ui *State) {
+
+	if key == blt.TK_ESCAPE {
+		if ui.IntendedAction != 0 {
+			ui.IntendedAction = 0
+		}
+		return
+	}
 
 	if key == blt.TK_ENTER {
 		blt.Color(blt.ColorFromName("white"))
@@ -23,6 +31,14 @@ func HandleInput(key int, gs *m.State, ui *State) {
 }
 
 func handleScreenMapInputs(key int, gs *m.State, ui *State) {
+	fmt.Println(key)
+
+	for _, action := range BasicPlayerActions {
+		if action.Key == key {
+			ui.IntendedAction = action.Type
+			return
+		}
+	}
 
 	switch key {
 

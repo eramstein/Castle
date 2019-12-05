@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
+	cmd "github.com/castle/src/game/commands"
+	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
 )
 
@@ -36,6 +38,8 @@ func setInfoPanel(ui *State, gs *m.State) {
 	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
 	// player details
 	setPlayerDetails(ui, gs.Characters[0], &nextRow)
+	// possible actions
+	setActions(ui, gs, &nextRow)
 
 	// region details
 	if ui.EntityDetails.Type == EntityTypeRegion {
@@ -117,5 +121,29 @@ func setPlayerDetails(ui *State, player *m.Character, nextRow *int) {
 	if player.Physical.Alive == false {
 		text = "MOURRU!"
 		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
+	}
+}
+
+func setActions(ui *State, gs *m.State, nextRow *int) {
+	if ui.IntendedAction == 0 {
+		for _, action := range BasicPlayerActions {
+			text := "(" + action.Handle + ") " + action.Name
+			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+		}
+	} else {
+		switch ui.IntendedAction {
+		case ActionEat:
+			foodOnGround := cmd.GetPlayerTile(gs).Items.Food
+			if len(foodOnGround) > 0 {
+				for i, food := range foodOnGround {
+					text := m.FoodSubtypeNames[food.Subtype]
+					addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{
+						Name:       "eat",
+						Entity:     i,
+						EntityType: c.WhereFloor,
+					})
+				}
+			}
+		}
 	}
 }

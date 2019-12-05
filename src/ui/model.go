@@ -1,16 +1,19 @@
 package ui
 
 import (
+	blt "bearlibterminal"
+
 	m "github.com/castle/src/game/model"
 )
 
 type State struct {
-	Screen        int
-	Camera        Camera
-	Texts         []UiElement
-	Buttons       []UiElement
-	EntityDetails Entity
-	BlockSim      bool
+	Screen         int
+	Camera         Camera
+	Texts          []UiElement
+	Buttons        []UiElement
+	EntityDetails  Entity
+	BlockSim       bool
+	IntendedAction int
 }
 
 type Camera struct {
@@ -41,3 +44,18 @@ const (
 	EntityTypeRegion = 1
 	EntityTypeTile   = 2
 )
+
+const (
+	ActionEat = 1
+)
+
+type BasicPlayerAction struct {
+	Type   int
+	Name   string
+	Handle string
+	Key    int
+}
+
+var BasicPlayerActions = []BasicPlayerAction{
+	{ActionEat, "Manger", "m", blt.TK_M},
+}
