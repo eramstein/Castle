@@ -14,7 +14,7 @@ func RenderAll(gs *m.State, ui *State) {
 
 	if ui.Screen == ScreenMap {
 		renderMap(ui.Camera, gs.World)
-		renderPlayer(ui.Camera, gs.Player)
+		renderPlayer(ui.Camera, gs.Characters[0])
 		renderInfoPanel(ui.Texts, ui.Buttons)
 	}
 

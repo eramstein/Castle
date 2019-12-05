@@ -11,7 +11,7 @@ func InitGame() *m.State {
 	var state = &m.State{
 		Time: 0,
 	}
-	state.Player = player.GetInitialPlayer()
+	state.Characters = append(state.Characters, player.GetInitialPlayerCharacter())
 	state.World = world.GetInitialWorld()
 	state.SimTasks = simTasks.GetInitialSimTasks()
 	return state

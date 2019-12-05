@@ -8,7 +8,7 @@ import (
 )
 
 func MovePlayer(gs *m.State, x, y, z int) {
-	var pos = &gs.Player.Pos
+	var pos = &gs.Characters[0].Pos
 	targetPos := m.Pos{Region: pos.Region, X: pos.X + x, Y: pos.Y + y, Z: pos.Z + z}
 	// check for validity
 	valid := char.IsMoveValid(gs, targetPos)
@@ -18,7 +18,7 @@ func MovePlayer(gs *m.State, x, y, z int) {
 	}
 	tile := gs.World.Regions[pos.Region].Tiles[pos.Z+z][pos.Y+y][pos.X+x]
 	// estimate task duration
-	dur := char.GetTimeMoveToTile(gs.Player.Atts, gs.Player.Physical, tile)
+	dur := char.GetTimeMoveToTile(gs.Characters[0].Atts, gs.Characters[0].Physical, tile)
 	// create task & add to sim schedule and player data
 	task := m.CharacterTask{
 		LastUpdated: gs.Time,
@@ -34,4 +34,8 @@ func MovePlayer(gs *m.State, x, y, z int) {
 	simTasks.AddPlayerTask(gs, task, dur)
 	// run simulation during task time or until interruption
 	simTasks.RunSimulation(gs, dur)
+}
+
+func Eat(gs *m.State, food m.Food, quantity int, pos m.Pos, where int) {
+	char.Eat(gs, 0, food, quantity, pos, where)
 }

@@ -40,7 +40,7 @@ func renderMap(camera Camera, world *m.World) {
 	}
 }
 
-func renderPlayer(camera Camera, player *m.Player) {
+func renderPlayer(camera Camera, player *m.Character) {
 	camX := int(camera.Width / TileSizeX)
 	camY := int(camera.Height / TileSizeY)
 	x := camX + player.Pos.X - camera.Pos.X

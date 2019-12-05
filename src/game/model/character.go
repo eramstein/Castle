@@ -1,15 +1,20 @@
 package model
 
+type LivingBeing struct {
+	Pos          Pos
+	Atts         Attributes
+	Wounds       []Wound
+	Diseases     []Disease
+	Physical     PhysicalState
+	Needs        NeedsState
+	NeedsProfile NeedsProfile
+	Task         CharacterTask
+}
+
 type Character struct {
-	Pos            Pos
-	Atts           Attributes
-	Wounds         []Wound
-	Diseases       []Disease
-	Physical       PhysicalState
+	LivingBeing
 	Mental         MentalState
-	Needs          NeedsState
 	Desires        DesiresState
-	NeedsProfile   NeedsProfile
 	DesiresProfile DesiresProfile
 	Task           CharacterTask
 }

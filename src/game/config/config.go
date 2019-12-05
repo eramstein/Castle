@@ -1,7 +1,12 @@
 package config
 
-const WorldAgentID = -2
-const PlayerAgentID = -1
+const WorldAgentID = -1
+
+const (
+	WhereInventory = iota
+	WhereFloor     = iota
+	WhereContainer = iota
+)
 
 const WorldSize = 5
 const RegionWidth = 250

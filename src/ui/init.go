@@ -5,7 +5,7 @@ import (
 )
 
 func InitUI(gameState *m.State) *State {
-	var player = gameState.Player
+	var player = gameState.Characters[0]
 	var state = &State{
 		Screen: ScreenMap,
 		Camera: Camera{

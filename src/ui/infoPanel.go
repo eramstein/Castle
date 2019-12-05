@@ -35,7 +35,7 @@ func setInfoPanel(ui *State, gs *m.State) {
 	text = getTimeString(gs.Time)
 	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
 	// player details
-	setPlayerDetails(ui, gs.Player, &nextRow)
+	setPlayerDetails(ui, gs.Characters[0], &nextRow)
 
 	// region details
 	if ui.EntityDetails.Type == EntityTypeRegion {
@@ -109,7 +109,7 @@ func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
 	}
 }
 
-func setPlayerDetails(ui *State, player *m.Player, nextRow *int) {
+func setPlayerDetails(ui *State, player *m.Character, nextRow *int) {
 	text := "Faim: " + strconv.Itoa(player.Needs.Hunger)
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	text = "Nutrition - Total: " + strconv.Itoa(player.Physical.Nutrition.Total)

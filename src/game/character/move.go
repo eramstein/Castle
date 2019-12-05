@@ -9,17 +9,9 @@ func GetTimeMoveToTile(atts m.Attributes, physicalState m.PhysicalState, tile m.
 	return 10
 }
 
-func MoveCharacter(gs *m.State, characterID int, pos m.Pos) {
-	if characterID < c.PlayerAgentID {
-		return
-	}
-
-	if characterID == c.PlayerAgentID {
-		gs.Player.Pos = pos
-	} else {
-		gs.Characters[characterID].Pos = pos
-		// TODO: create new move task from path finding
-	}
+func MoveCharacter(gs *m.State, agentID int, pos m.Pos) {
+	gs.Characters[agentID].Pos = pos
+	// TODO: create new move task from path finding for NPCs
 }
 
 func IsMoveValid(gs *m.State, pos m.Pos) bool {

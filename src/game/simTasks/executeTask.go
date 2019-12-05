@@ -12,11 +12,7 @@ import (
 func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
 	charTask := m.CharacterTask{}
 	if task.Agent != c.WorldAgentID {
-		if task.Agent == c.PlayerAgentID {
-			charTask = gs.Player.Task
-		} else {
-			charTask = gs.Characters[task.Agent].Task
-		}
+		charTask = gs.Characters[task.Agent].Task
 	}
 
 	switch task.Type {

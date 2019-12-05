@@ -21,11 +21,11 @@ func GetInitialSimTasks() []m.SimTaskSchedule {
 }
 
 func AddPlayerTask(gs *m.State, task m.CharacterTask, estimatedDuration int) {
-	gs.Player.Task = task
+	gs.Characters[0].Task = task
 	gs.SimTasks = append(gs.SimTasks, m.SimTaskSchedule{
 		EndTime: gs.Time + estimatedDuration,
 		Type:    task.Type,
-		Agent:   c.PlayerAgentID,
+		Agent:   0,
 	})
 }
 

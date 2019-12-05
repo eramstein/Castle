@@ -10,7 +10,9 @@ import (
 
 func UpdateNeeds(gs *m.State) {
 	fmt.Println("UpdateNeeds")
-	updateNeedsState(gs, &gs.Player.Needs, &gs.Player.Physical, gs.Player.NeedsProfile)
+	for _, char := range gs.Characters {
+		updateNeedsState(gs, &char.Needs, &char.Physical, char.NeedsProfile)
+	}
 	gs.Log.UserFeedback = true
 }
 
@@ -29,4 +31,10 @@ func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.Physica
 			Text:    "faim",
 		})
 	}
+}
+
+func Eat(gs *m.State, agentID int, food m.Food, quantity int, pos m.Pos, where int) {
+	// delete food item
+	// update entity needs
+	gs.Characters[agentID].Needs.Hunger -= 10
 }
