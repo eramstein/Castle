@@ -95,9 +95,10 @@ func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow 
 	text := m.SurfaceNames[tile.Surface]
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	if len(tile.Items.Food) > 0 {
-		food := tile.Items.Food[0]
-		text := fmt.Sprintf("%d %ss", food.Quantity, m.FoodSubtypeNames[food.Subtype])
-		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+		for _, food := range tile.Items.Food {
+			text := fmt.Sprintf("%d %ss", food.Quantity, m.FoodSubtypeNames[food.Subtype])
+			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+		}
 	}
 }
 

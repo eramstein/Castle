@@ -23,6 +23,8 @@ func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
 		// TODO
 	case m.TaskTypeMovement:
 		char.MoveCharacter(gs, task.Agent, charTask.Pos)
+	case m.TaskTypeEat:
+		char.Eat(gs, task.Agent, 1, gs.Characters[0].Pos, charTask.Where, charTask.ItemIndex)
 	default:
 		fmt.Println("Task not found: " + strconv.Itoa(task.Type))
 	}

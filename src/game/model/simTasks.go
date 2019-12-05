@@ -12,10 +12,11 @@ type CharacterTask struct {
 	Type        int
 	SubType     int
 	//data
-	Agent int
-	Pos   Pos
-	Zone  int
-	Item  int
+	Agent     int
+	Pos       Pos
+	Zone      int
+	ItemIndex int
+	Where     int
 	// ...
 }
 
@@ -23,4 +24,5 @@ const (
 	TaskTypeUpdateNeeds   = 1
 	TaskTypeUpdateWeather = 2
 	TaskTypeMovement      = 3
+	TaskTypeEat           = 4
 )

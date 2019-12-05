@@ -42,5 +42,14 @@ func MovePlayer(gs *m.State, x, y, z int) {
 }
 
 func Eat(gs *m.State, where int, index int) {
-	char.Eat(gs, 0, 1, gs.Characters[0].Pos, where, index)
+	dur := char.GetTimeToEat()
+	task := m.CharacterTask{
+		LastUpdated: gs.Time,
+		Completion:  0,
+		Type:        m.TaskTypeEat,
+		Where:       where,
+		ItemIndex:   index,
+	}
+	simTasks.AddPlayerTask(gs, task, dur)
+	simTasks.RunSimulation(gs, dur)
 }

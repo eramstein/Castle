@@ -27,8 +27,10 @@ const (
 
 var FoodSubtypeNames = map[int]string{
 	0: "Pomme",
+	1: "Orange",
 }
 
 var FoodSubtypeNutritionFacts = map[int]NutritionFacts{
 	0: NutritionFacts{100},
+	1: NutritionFacts{100},
 }

@@ -9,6 +9,10 @@ import (
 	u "github.com/castle/src/game/utils"
 )
 
+func GetTimeToEat() (seconds int) {
+	return 500
+}
+
 func UpdateNeeds(gs *m.State) {
 	fmt.Println("UpdateNeeds")
 	for _, char := range gs.Characters {
@@ -40,7 +44,12 @@ func Eat(gs *m.State, agentID int, quantity int, pos m.Pos, where int, index int
 		slice := gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food
 		slice[index].Quantity -= quantity
 		if slice[index].Quantity <= 0 {
-			gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = nil
+			if len(slice) == 1 {
+				gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = nil
+			} else {
+				slice[index] = slice[len(slice)-1]
+				gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = slice[:len(slice)-1]
+			}
 		}
 	}
 	// update entity needs

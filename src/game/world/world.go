@@ -27,7 +27,7 @@ func GetInitialWorld() *m.World {
 					r := rand.Intn(100)
 					if r > 80 {
 						tiles[x][y].Items = m.TileItems{
-							Food: []m.Food{{Type: 0, Subtype: 0, Quantity: 1, Nutrition: 1}},
+							Food: []m.Food{{Type: 0, Subtype: 0, Quantity: 1, Nutrition: 1}, {Type: 0, Subtype: 1, Quantity: 2, Nutrition: 1}},
 						}
 					}
 				}
