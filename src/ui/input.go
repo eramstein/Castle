@@ -35,7 +35,11 @@ func handleScreenMapInputs(key int, gs *m.State, ui *State) {
 
 	for _, action := range BasicPlayerActions {
 		if action.Key == key {
-			ui.IntendedAction = action.Type
+			if ui.IntendedAction == action.Type {
+				ui.IntendedAction = 0
+			} else {
+				ui.IntendedAction = action.Type
+			}
 			return
 		}
 	}

@@ -53,3 +53,17 @@ func Eat(gs *m.State, where int, index int) {
 	simTasks.AddPlayerTask(gs, task, dur)
 	simTasks.RunSimulation(gs, dur)
 }
+
+func Pickup(gs *m.State, where int, itemType int, index int) {
+	dur := char.GetTimeToPickup()
+	task := m.CharacterTask{
+		LastUpdated: gs.Time,
+		Completion:  0,
+		Type:        m.TaskTypePickup,
+		Where:       where,
+		ItemIndex:   index,
+		ItemType:    itemType,
+	}
+	simTasks.AddPlayerTask(gs, task, dur)
+	simTasks.RunSimulation(gs, dur)
+}

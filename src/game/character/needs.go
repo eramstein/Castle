@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	c "github.com/castle/src/game/config"
+	"github.com/castle/src/game/item"
 	log "github.com/castle/src/game/log"
 	m "github.com/castle/src/game/model"
 	u "github.com/castle/src/game/utils"
@@ -38,20 +39,9 @@ func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.Physica
 	}
 }
 
-func Eat(gs *m.State, agentID int, quantity int, pos m.Pos, where int, index int) {
-	switch where {
-	case c.WhereFloor:
-		slice := gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food
-		slice[index].Quantity -= quantity
-		if slice[index].Quantity <= 0 {
-			if len(slice) == 1 {
-				gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = nil
-			} else {
-				slice[index] = slice[len(slice)-1]
-				gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y].Items.Food = slice[:len(slice)-1]
-			}
-		}
-	}
+func Eat(gs *m.State, agentID int, quantity int, tile *m.Tile, where int, index int) {
+	// update food slice
+	item.UpdateStackQuantity(gs, -quantity, tile, 0, where, index, c.ItemTypeFood)
 	// update entity needs
 	gs.Characters[agentID].Needs.Hunger = u.Max(gs.Characters[agentID].Needs.Hunger-10, 0)
 }

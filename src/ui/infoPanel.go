@@ -27,33 +27,35 @@ func renderInfoPanel(texts []UiElement, buttons []UiElement) {
 func setInfoPanel(ui *State, gs *m.State) {
 	nextRow := InfoPanelTopMargin
 
-	region := &gs.World.Regions[ui.Camera.Pos.Region]
-
-	// region name
-	text := region.Name
-	action := Action{Name: "toggleInfoDetails", EntityType: EntityTypeRegion, Entity: ui.Camera.Pos.Region}
-	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
-	// time
-	text = getTimeString(gs.Time)
-	addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
-	// player details
-	setPlayerDetails(ui, gs.Characters[0], &nextRow)
-	// possible actions
-	setActions(ui, gs, &nextRow)
-
-	// region details
-	if ui.EntityDetails.Type == EntityTypeRegion {
-		setInfoPanelRegionDetails(ui, region, &nextRow)
+	if ui.IntendedAction > 0 {
+		// possible actions
+		setActionsDetails(ui, gs, &nextRow)
+	} else {
+		// region name
+		region := &gs.World.Regions[ui.Camera.Pos.Region]
+		text := region.Name
+		action := Action{Name: "toggleInfoDetails", EntityType: EntityTypeRegion, Entity: ui.Camera.Pos.Region}
+		addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
+		// time
+		text = getTimeString(gs.Time)
+		addElementToInfoPanel(ui, text, &nextRow, InfoPanelLeftMargin, 0, action)
+		// possible actions
+		setActionsButtons(ui, gs, &nextRow)
+		// player details
+		setPlayerDetails(ui, gs.Characters[0], &nextRow)
+		// region details
+		if ui.EntityDetails.Type == EntityTypeRegion {
+			setInfoPanelRegionDetails(ui, region, &nextRow)
+		}
+		// tile details
+		tileDetailsX := ui.Camera.Pos.X
+		tileDetailsY := ui.Camera.Pos.Y
+		if ui.EntityDetails.Type == EntityTypeTile {
+			tileDetailsX = ui.EntityDetails.Data1
+			tileDetailsY = ui.EntityDetails.Data2
+		}
+		setInfoPanelTileDetails(ui, region, tileDetailsX, tileDetailsY, &nextRow)
 	}
-
-	// tile details
-	tileDetailsX := ui.Camera.Pos.X
-	tileDetailsY := ui.Camera.Pos.Y
-	if ui.EntityDetails.Type == EntityTypeTile {
-		tileDetailsX = ui.EntityDetails.Data1
-		tileDetailsY = ui.EntityDetails.Data2
-	}
-	setInfoPanelTileDetails(ui, region, tileDetailsX, tileDetailsY, &nextRow)
 
 	// command log
 	setInfoPanelLog(ui, gs, &nextRow)
@@ -84,6 +86,10 @@ func addVerticalMargin(nextRow *int) {
 	*nextRow++
 }
 
+func getFoodLabel(food m.Food) string {
+	return fmt.Sprintf("%d %ss", food.Quantity, m.FoodSubtypeNames[food.Subtype])
+}
+
 func setInfoPanelRegionDetails(ui *State, region *m.Region, nextRow *int) {
 	text := region.Description
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
@@ -96,7 +102,7 @@ func setInfoPanelTileDetails(ui *State, region *m.Region, x int, y int, nextRow 
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	if len(tile.Items.Food) > 0 {
 		for _, food := range tile.Items.Food {
-			text := fmt.Sprintf("%d %ss", food.Quantity, m.FoodSubtypeNames[food.Subtype])
+			text := getFoodLabel(food)
 			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 		}
 	}
@@ -125,26 +131,71 @@ func setPlayerDetails(ui *State, player *m.Character, nextRow *int) {
 	}
 }
 
-func setActions(ui *State, gs *m.State, nextRow *int) {
-	if ui.IntendedAction == 0 {
-		for _, action := range BasicPlayerActions {
-			text := "(" + action.Handle + ") " + action.Name
-			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+func setActionsButtons(ui *State, gs *m.State, nextRow *int) {
+	for _, action := range BasicPlayerActions {
+		text := "(" + action.Handle + ") " + action.Name
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	}
+}
+
+func setActionsDetails(ui *State, gs *m.State, nextRow *int) {
+	switch ui.IntendedAction {
+	case ActionEat:
+		setEat(ui, gs, nextRow)
+	case ActionUseInventory:
+		setUseInventory(ui, gs, nextRow)
+	case ActionPickup:
+		setPickup(ui, gs, nextRow)
+	}
+}
+
+func setEat(ui *State, gs *m.State, nextRow *int) {
+	addElementToInfoPanel(ui, "MANGER", nextRow, InfoPanelLeftMargin, 0, Action{})
+	foodOnGround := cmd.GetPlayerTile(gs).Items.Food
+	if len(foodOnGround) > 0 {
+		addElementToInfoPanel(ui, "Au Sol", nextRow, InfoPanelLeftMargin, 0, Action{})
+		for i, food := range foodOnGround {
+			addElementToInfoPanel(ui, getFoodLabel(food), nextRow, InfoPanelLeftMargin, 0, Action{
+				Name:   "eat",
+				Entity: i,
+				Data:   c.WhereFloor,
+			})
 		}
-	} else {
-		switch ui.IntendedAction {
-		case ActionEat:
-			foodOnGround := cmd.GetPlayerTile(gs).Items.Food
-			if len(foodOnGround) > 0 {
-				for i, food := range foodOnGround {
-					text := m.FoodSubtypeNames[food.Subtype]
-					addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{
-						Name:       "eat",
-						Entity:     i,
-						EntityType: c.WhereFloor,
-					})
-				}
-			}
+	}
+	foodInInventory := gs.Characters[0].Inventory.Food
+	if len(foodInInventory) > 0 {
+		addElementToInfoPanel(ui, "Dans l'inventaire", nextRow, InfoPanelLeftMargin, 0, Action{})
+		for i, food := range foodInInventory {
+			addElementToInfoPanel(ui, getFoodLabel(food), nextRow, InfoPanelLeftMargin, 0, Action{
+				Name:   "eat",
+				Entity: i,
+				Data:   c.WhereInventory,
+			})
+		}
+	}
+}
+
+func setUseInventory(ui *State, gs *m.State, nextRow *int) {
+	addElementToInfoPanel(ui, "INVENTAIRE", nextRow, InfoPanelLeftMargin, 0, Action{})
+	inventory := gs.Characters[0].Inventory
+	for _, food := range inventory.Food {
+		text := getFoodLabel(food)
+		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	}
+}
+
+func setPickup(ui *State, gs *m.State, nextRow *int) {
+	addElementToInfoPanel(ui, "RAMASSER", nextRow, InfoPanelLeftMargin, 0, Action{})
+	foodOnGround := cmd.GetPlayerTile(gs).Items.Food
+	if len(foodOnGround) > 0 {
+		for i, food := range foodOnGround {
+			text := getFoodLabel(food)
+			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{
+				Name:       "pickup",
+				Entity:     i,
+				EntityType: c.ItemTypeFood,
+				Data:       c.WhereFloor,
+			})
 		}
 	}
 }

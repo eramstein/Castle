@@ -24,7 +24,9 @@ func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
 	case m.TaskTypeMovement:
 		char.MoveCharacter(gs, task.Agent, charTask.Pos)
 	case m.TaskTypeEat:
-		char.Eat(gs, task.Agent, 1, gs.Characters[0].Pos, charTask.Where, charTask.ItemIndex)
+		char.Eat(gs, task.Agent, 1, char.GetTile(gs, task.Agent), charTask.Where, charTask.ItemIndex)
+	case m.TaskTypePickup:
+		char.Pickup(gs, task.Agent, 1, char.GetTile(gs, task.Agent), task.Agent, charTask.Where, charTask.ItemIndex, charTask.ItemType)
 	default:
 		fmt.Println("Task not found: " + strconv.Itoa(task.Type))
 	}

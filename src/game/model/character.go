@@ -13,10 +13,15 @@ type LivingBeing struct {
 
 type Character struct {
 	LivingBeing
+	Inventory      Inventory
 	Mental         MentalState
 	Desires        DesiresState
 	DesiresProfile DesiresProfile
 	Task           CharacterTask
+}
+
+type Inventory struct {
+	Food []Food
 }
 
 type Attributes struct {

@@ -10,6 +10,10 @@ const (
 )
 
 const (
+	ItemTypeFood = iota
+)
+
+const (
 	AgentTypeCharacter = iota
 	AgentTypeAnimal    = iota
 	AgentTypePhantom   = iota

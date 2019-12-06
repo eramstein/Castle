@@ -16,6 +16,7 @@ type CharacterTask struct {
 	Pos       Pos
 	Zone      int
 	ItemIndex int
+	ItemType  int
 	Where     int
 	// ...
 }
@@ -25,4 +26,5 @@ const (
 	TaskTypeUpdateWeather = 2
 	TaskTypeMovement      = 3
 	TaskTypeEat           = 4
+	TaskTypePickup        = 5
 )

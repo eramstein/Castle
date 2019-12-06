@@ -46,7 +46,9 @@ const (
 )
 
 const (
-	ActionEat = 1
+	ActionEat = iota + 1
+	ActionUseInventory
+	ActionPickup
 )
 
 type BasicPlayerAction struct {
@@ -58,4 +60,6 @@ type BasicPlayerAction struct {
 
 var BasicPlayerActions = []BasicPlayerAction{
 	{ActionEat, "Manger", "m", blt.TK_M},
+	{ActionUseInventory, "Inventaire", "i", blt.TK_I},
+	{ActionPickup, "Ramasser", "r", blt.TK_R},
 }
