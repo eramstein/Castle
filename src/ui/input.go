@@ -17,6 +17,12 @@ func HandleInput(key int, gs *m.State, ui *State) {
 		return
 	}
 
+	if key == blt.TK_SPACE && ui.BlockSim {
+		ui.BlockSim = false
+		cmd.InterruptSim(gs)
+		return
+	}
+
 	if key == blt.TK_ENTER {
 		blt.Color(blt.ColorFromName("white"))
 		_, t := blt.ReadStr(1, 1, 100)

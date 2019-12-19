@@ -123,6 +123,8 @@ func setInfoPanelLog(ui *State, gs *m.State, nextRow *int) {
 func setPlayerDetails(ui *State, player *m.Character, nextRow *int) {
 	text := "Faim: " + strconv.Itoa(player.Needs.Hunger)
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	text = "Soif: " + strconv.Itoa(player.Needs.Thirst)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	text = "Nutrition - Total: " + strconv.Itoa(player.Physical.Nutrition.Total)
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	if player.Physical.Alive == false {

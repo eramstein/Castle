@@ -10,8 +10,17 @@ import (
 	u "github.com/castle/src/game/utils"
 )
 
+const (
+	HUNGER_NEED_RATE   = 10 // number of hours for hunger to go from 0 to 100
+	THIRST_NEED_RATE   = 6  // number of hours for thirst to go from 0 to 100
+	HUNGER_DAMAGE_RATE = 1  // damage done to nutrition if hunger >= 100
+	THIRST_DAMAGE_RATE = 2  // damage done to hydratation if thirst >= 100
+	HUNGER_REPAIR_RATE = 1  // repair done to nutrition if hunger < 100
+	THIRST_REPAIR_RATE = 1  // repair done to hydratation if thirst < 100
+)
+
 func GetTimeToEat() (seconds int) {
-	return 500
+	return 300
 }
 
 func UpdateNeeds(gs *m.State) {
@@ -24,10 +33,10 @@ func UpdateNeeds(gs *m.State) {
 
 func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.PhysicalState, profile m.NeedsProfile) {
 	// HUNGER
-	var hungerRate = int(100 * (float64(c.UpdateNeedsFrequency) / (3600 * 10))) // hungers goes from 0 to 100 in 10 hours
-	needsState.Hunger += int(hungerRate * profile.Hunger / 100)
+	var hungerRate = 100 * (float64(c.UpdateNeedsFrequency) / (3600 * HUNGER_NEED_RATE))
+	needsState.Hunger += int(hungerRate * float64(profile.Hunger) / 100)
 	if needsState.Hunger > 100 {
-		physical.Nutrition.Total -= (needsState.Hunger - 100)
+		physical.Nutrition.Total -= HUNGER_DAMAGE_RATE
 		if physical.Nutrition.Total <= 0 {
 			physical.Alive = false
 		}
@@ -36,6 +45,28 @@ func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.Physica
 			LogType: m.LogTypeAlert,
 			Text:    "faim",
 		})
+	} else {
+		if physical.Nutrition.Total < 100 {
+			physical.Nutrition.Total += HUNGER_REPAIR_RATE
+		}
+	}
+	// THIRST
+	var thirstRate = 100 * (float64(c.UpdateNeedsFrequency) / (3600 * THIRST_NEED_RATE))
+	needsState.Thirst += int(thirstRate * float64(profile.Thirst) / 100)
+	if needsState.Thirst > 100 {
+		physical.Hydratation -= THIRST_DAMAGE_RATE
+		if physical.Hydratation <= 0 {
+			physical.Alive = false
+		}
+		needsState.Thirst = 100
+		log.AddLog(gs, m.LogForUI{
+			LogType: m.LogTypeAlert,
+			Text:    "soif",
+		})
+	} else {
+		if physical.Hydratation < 100 {
+			physical.Hydratation += THIRST_REPAIR_RATE
+		}
 	}
 }
 

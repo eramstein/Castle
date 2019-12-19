@@ -6,27 +6,25 @@ import (
 )
 
 func UpdateStackQuantity(gs *m.State, quantity int, tile *m.Tile, characterID int, where int, index int, itemType int) {
-	switch where {
-	case c.WhereFloor:
-		slice := tile.Items.Food
-		slice[index].Quantity += quantity
-		if slice[index].Quantity <= 0 {
-			if len(slice) == 1 {
-				tile.Items.Food = nil
-			} else {
-				slice[index] = slice[len(slice)-1]
-				tile.Items.Food = slice[:len(slice)-1]
-			}
+	switch itemType {
+	case c.ItemTypeFood:
+		var slice []m.Food
+		var sliceP *[]m.Food
+		switch where {
+		case c.WhereFloor:
+			slice = tile.Items.Food
+			sliceP = &tile.Items.Food
+		case c.WhereInventory:
+			slice = gs.Characters[characterID].Inventory.Food
+			sliceP = &gs.Characters[characterID].Inventory.Food
 		}
-	case c.WhereInventory:
-		slice := gs.Characters[characterID].Inventory.Food
 		slice[index].Quantity += quantity
 		if slice[index].Quantity <= 0 {
 			if len(slice) == 1 {
-				gs.Characters[characterID].Inventory.Food = nil
+				*sliceP = nil
 			} else {
 				slice[index] = slice[len(slice)-1]
-				gs.Characters[characterID].Inventory.Food = slice[:len(slice)-1]
+				*sliceP = slice[:len(slice)-1]
 			}
 		}
 	}

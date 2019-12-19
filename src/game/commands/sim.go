@@ -12,3 +12,7 @@ func ResumeSim(gs *m.State) {
 func Wait(gs *m.State, minutes int) {
 	simTasks.RunSimulation(gs, 60*minutes)
 }
+
+func InterruptSim(gs *m.State) {
+	gs.Log.SimTimeLeft = 0
+}

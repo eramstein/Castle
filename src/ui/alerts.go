@@ -17,5 +17,4 @@ func BlockSimIfNeeded(gs *m.State, ui *State) {
 
 func clearAlerts(gs *m.State, ui *State) {
 	cmd.ClearLog(gs)
-	ui.BlockSim = false
 }
