@@ -38,6 +38,7 @@ var cellsize = "cellsize=" + strconv.Itoa(CellPixelSize) + "x" + strconv.Itoa(Ce
 var window = "window: " + size + "," + title + "," + cellsize
 var input = "input.filter = [keyboard, mouse]"
 var textFont = "text font: " + Font + ",size=16,spacing=1x3"
-var tileFont = "tile font: " + Font + ",size=18"
+var tileFont = "tile font: " + Font + ",size=18,spacing=2x2"
+var bkFont = "bk font: " + Font + ",size=20,spacing=2x2"
 
 var BltConfig = window + "; " + input + "; " + textFont + "; " + tileFont + ";"

@@ -8,6 +8,7 @@ import (
 )
 
 func renderMap(camera Camera, world *m.World) {
+	defer track(runningtime("execute"))
 	tiles := world.Regions[camera.Pos.Region].Tiles[camera.Pos.Z]
 	for x := 0; x < camera.Width; x++ {
 		columnIndex := camera.Pos.X - int(camera.Width/TileSizeX) + x
@@ -21,24 +22,27 @@ func renderMap(camera Camera, world *m.World) {
 				continue
 			}
 			tile := &tiles[columnIndex][rowIndex]
-			if tile.Surface == m.SurfaceRock {
-				blt.BkColor(blt.ColorFromName("gray"))
-				blt.Color(blt.ColorFromName("gray"))
-				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]#[/font]")
-			} else {
-				blt.Color(blt.ColorFromName("brown"))
-				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile].[/font]")
-			}
+			renderSurface(tile.Surface, x, y)
 			if len(tile.Items.Food) > 0 {
 				// blt.Composition(blt.TK_ON)
 				// blt.Layer(1)
 				blt.Color(blt.ColorFromName(Colors[ColorRed]))
-				blt.Print(x*TileSizeX, y*TileSizeY, "p")
+				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]p[/font]")
 				// blt.Layer(0)
 				// blt.Composition(blt.TK_OFF)
 			}
 		}
 	}
+}
+
+func renderSurface(surface, x, y int) {
+	switch surface {
+	case m.SurfaceRock:
+		blt.BkColor(blt.ColorFromName("gray"))
+	default:
+		blt.BkColor(blt.ColorFromName("black"))
+	}
+	blt.ClearArea(x*TileSizeX, y*TileSizeY, 2, 2)
 }
 
 func renderPlayer(camera Camera, player *m.Character) {
