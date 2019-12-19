@@ -7,6 +7,24 @@ import (
 	m "github.com/castle/src/game/model"
 )
 
+func GetTileAtPos(gs *m.State, pos *m.Pos) m.Tile {
+	return gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y]
+}
+
+func GetTileAroundPos(gs *m.State, pos *m.Pos) []m.Tile {
+	return []m.Tile{
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y+1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y-1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y+1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y-1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y+1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y-1],
+		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y],
+	}
+}
+
 func GetInitialWorld() *m.World {
 
 	regions := make([]m.Region, c.WorldSize)

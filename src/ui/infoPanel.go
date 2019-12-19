@@ -127,6 +127,8 @@ func setPlayerDetails(ui *State, player *m.Character, nextRow *int) {
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	text = "Nutrition - Total: " + strconv.Itoa(player.Physical.Nutrition.Total)
 	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
+	text = "Hydratation: " + strconv.Itoa(player.Physical.Hydratation)
+	addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{})
 	if player.Physical.Alive == false {
 		text = "MOURRU!"
 		addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, ColorRed, Action{})
@@ -153,7 +155,7 @@ func setActionsDetails(ui *State, gs *m.State, nextRow *int) {
 
 func setEat(ui *State, gs *m.State, nextRow *int) {
 	addElementToInfoPanel(ui, "MANGER", nextRow, InfoPanelLeftMargin, 0, Action{})
-	foodOnGround := cmd.GetPlayerTile(gs).Items.Food
+	foodOnGround := cmd.GetFoodAroundPlayer(gs)
 	if len(foodOnGround) > 0 {
 		addElementToInfoPanel(ui, "Au Sol", nextRow, InfoPanelLeftMargin, 0, Action{})
 		for i, food := range foodOnGround {
@@ -188,7 +190,7 @@ func setUseInventory(ui *State, gs *m.State, nextRow *int) {
 
 func setPickup(ui *State, gs *m.State, nextRow *int) {
 	addElementToInfoPanel(ui, "RAMASSER", nextRow, InfoPanelLeftMargin, 0, Action{})
-	foodOnGround := cmd.GetPlayerTile(gs).Items.Food
+	foodOnGround := cmd.GetFoodAroundPlayer(gs)
 	if len(foodOnGround) > 0 {
 		for i, food := range foodOnGround {
 			text := getFoodLabel(food)

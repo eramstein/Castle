@@ -8,7 +8,6 @@ import (
 )
 
 func renderMap(camera Camera, world *m.World) {
-	defer track(runningtime("execute"))
 	tiles := world.Regions[camera.Pos.Region].Tiles[camera.Pos.Z]
 	for x := 0; x < camera.Width; x++ {
 		columnIndex := camera.Pos.X - int(camera.Width/TileSizeX) + x
