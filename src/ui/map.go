@@ -22,6 +22,7 @@ func renderMap(camera Camera, world *m.World) {
 			}
 			tile := &tiles[columnIndex][rowIndex]
 			if tile.Surface == m.SurfaceRock {
+				blt.BkColor(blt.ColorFromName("gray"))
 				blt.Color(blt.ColorFromName("gray"))
 				blt.Print(x*TileSizeX, y*TileSizeY, "[font=tile]#[/font]")
 			} else {
