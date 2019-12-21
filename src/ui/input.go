@@ -37,7 +37,7 @@ func HandleInput(key int, gs *m.State, ui *State) {
 }
 
 func handleScreenMapInputs(key int, gs *m.State, ui *State) {
-	fmt.Println(key)
+	//fmt.Println(key)
 
 	for _, action := range BasicPlayerActions {
 		if action.Key == key {
@@ -80,6 +80,7 @@ func handleScreenMapInputs(key int, gs *m.State, ui *State) {
 
 	case blt.TK_MOUSE_LEFT:
 		clickedOnMap, x, y := tileAtCoordinates(ui.Camera, blt.State(blt.TK_MOUSE_X), blt.State(blt.TK_MOUSE_Y))
+		fmt.Println(x, y)
 		if clickedOnMap {
 			setInfoDetails(ui, EntityTypeTile, 0, x, y)
 		} else {

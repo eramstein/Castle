@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"runtime"
 	"time"
 
@@ -24,6 +25,8 @@ var State = &FullState{}
 var iLoops = 0
 
 func init() {
+
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	runtime.LockOSThread()
 	State = loadState()

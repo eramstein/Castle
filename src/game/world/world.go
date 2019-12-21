@@ -68,6 +68,10 @@ func GetInitialWorld() *m.World {
 			`,
 			Tiles: plane,
 		}
+
+		if i == 0 {
+			MakeRiver(&regions[i])
+		}
 	}
 
 	return &m.World{

@@ -38,6 +38,8 @@ func renderSurface(surface, x, y int) {
 	switch surface {
 	case m.SurfaceRock:
 		blt.BkColor(blt.ColorFromName("gray"))
+	case m.SurfaceWater:
+		blt.BkColor(blt.ColorFromName("blue"))
 	default:
 		blt.BkColor(blt.ColorFromName("black"))
 	}

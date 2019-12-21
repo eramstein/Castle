@@ -27,14 +27,31 @@ type Pos struct {
 	Z      int
 }
 
+type River struct {
+	Name             string
+	inDirection      int
+	outDirection     int
+	currentStrength  int
+	waterTemperature int
+}
+
+const (
+	DirectionNorth = iota
+	DirectionSouth = iota
+	DirectionEast  = iota
+	DirectionWest  = iota
+)
+
 const (
 	SurfaceGround = 0
 	SurfaceRock   = 1
+	SurfaceWater  = 2
 )
 
 var SurfaceNames = map[int]string{
 	0: "Ground",
 	1: "Rock",
+	2: "Water",
 }
 
 const (
