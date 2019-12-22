@@ -8,12 +8,20 @@ type Region struct {
 	Name        string
 	Description string
 	Tiles       [][][]Tile
+	Rivers      []River
 }
 
 type Tile struct {
-	Surface int
-	Volume  int
-	Items   TileItems
+	Surface      int
+	Volume       int
+	SurfaceDepth int
+	Items        TileItems
+	River        *River
+	Zones        []Zone
+}
+
+type Zone struct {
+	Type int
 }
 
 type TileItems struct {
@@ -29,10 +37,11 @@ type Pos struct {
 
 type River struct {
 	Name             string
-	inDirection      int
-	outDirection     int
-	currentStrength  int
-	waterTemperature int
+	InDirection      int
+	OutDirection     int
+	CurrentStrength  int
+	WaterTemperature int
+	Depth            int
 }
 
 const (
