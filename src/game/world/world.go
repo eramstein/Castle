@@ -7,8 +7,8 @@ import (
 	m "github.com/castle/src/game/model"
 )
 
-func GetTileAtPos(gs *m.State, pos *m.Pos) m.Tile {
-	return gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y]
+func GetTileAtPos(gs *m.State, pos m.Pos) *m.Tile {
+	return &gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y]
 }
 
 func GetTileAroundPos(gs *m.State, pos *m.Pos) []m.Tile {
@@ -22,6 +22,20 @@ func GetTileAroundPos(gs *m.State, pos *m.Pos) []m.Tile {
 		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y+1],
 		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y-1],
 		gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y],
+	}
+}
+
+func GetTileAndPosAroundPos(gs *m.State, pos *m.Pos) []m.TileAndPos {
+	return []m.TileAndPos{
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y+1], Pos: m.Pos{pos.Region, pos.X, pos.Y + 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y-1], Pos: m.Pos{pos.Region, pos.X, pos.Y - 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y], Pos: m.Pos{pos.Region, pos.X, pos.Y, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y+1], Pos: m.Pos{pos.Region, pos.X + 1, pos.Y + 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y-1], Pos: m.Pos{pos.Region, pos.X + 1, pos.Y - 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X+1][pos.Y], Pos: m.Pos{pos.Region, pos.X + 1, pos.Y, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y+1], Pos: m.Pos{pos.Region, pos.X - 1, pos.Y + 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y-1], Pos: m.Pos{pos.Region, pos.X - 1, pos.Y - 1, pos.Z}},
+		{Tile: gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X-1][pos.Y], Pos: m.Pos{pos.Region, pos.X - 1, pos.Y, pos.Z}},
 	}
 }
 

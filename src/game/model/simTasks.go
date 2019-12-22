@@ -22,9 +22,10 @@ type CharacterTask struct {
 }
 
 const (
-	TaskTypeUpdateNeeds   = 1
-	TaskTypeUpdateWeather = 2
-	TaskTypeMovement      = 3
-	TaskTypeEat           = 4
-	TaskTypePickup        = 5
+	TaskTypeUpdateNeeds = iota + 1
+	TaskTypeUpdateWeather
+	TaskTypeMovement
+	TaskTypeEat
+	TaskTypePickup
+	TaskTypeDrink
 )

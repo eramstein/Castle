@@ -23,6 +23,10 @@ func GetTimeToEat() (seconds int) {
 	return 300
 }
 
+func GetTimeToDrink() (seconds int) {
+	return 30
+}
+
 func UpdateNeeds(gs *m.State) {
 	fmt.Println("UpdateNeeds")
 	for _, char := range gs.Characters {
@@ -72,7 +76,22 @@ func updateNeedsState(gs *m.State, needsState *m.NeedsState, physical *m.Physica
 
 func Eat(gs *m.State, agentID int, quantity int, tile *m.Tile, where int, index int) {
 	// update food slice
-	item.UpdateStackQuantity(gs, -quantity, tile, 0, where, index, c.ItemTypeFood)
+	item.UpdateStackQuantity(gs, -quantity, tile, agentID, where, index, c.ItemTypeFood)
 	// update entity needs
 	gs.Characters[agentID].Needs.Hunger = u.Max(gs.Characters[agentID].Needs.Hunger-10, 0)
+}
+
+func Drink(gs *m.State, agentID int, quantity int, tile *m.Tile, where int, index int) {
+	// case from tile directly (e.g. river)
+	if where == c.WhereFloor {
+		if tile.Surface != m.SurfaceWater && tile.Volume != m.VolumeWater {
+			return
+		}
+	}
+
+	// TODO: case from container
+	//item.UpdateStackQuantity(gs, -quantity, tile, 0, where, index, c.ItemTypeFood)
+
+	// update entity needs
+	gs.Characters[agentID].Needs.Thirst = u.Max(gs.Characters[agentID].Needs.Thirst-10, 0)
 }

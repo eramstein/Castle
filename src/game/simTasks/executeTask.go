@@ -7,6 +7,7 @@ import (
 	char "github.com/castle/src/game/character"
 	c "github.com/castle/src/game/config"
 	m "github.com/castle/src/game/model"
+	"github.com/castle/src/game/world"
 )
 
 func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
@@ -24,9 +25,14 @@ func executeTask(gs *m.State, task m.SimTaskSchedule) (timeSpent int) {
 	case m.TaskTypeMovement:
 		char.MoveCharacter(gs, task.Agent, charTask.Pos)
 	case m.TaskTypeEat:
-		char.Eat(gs, task.Agent, 1, char.GetTile(gs, task.Agent), charTask.Where, charTask.ItemIndex)
+		tile := world.GetTileAtPos(gs, charTask.Pos)
+		char.Eat(gs, task.Agent, 1, tile, charTask.Where, charTask.ItemIndex)
+	case m.TaskTypeDrink:
+		tile := world.GetTileAtPos(gs, charTask.Pos)
+		char.Drink(gs, task.Agent, 1, tile, charTask.Where, charTask.ItemIndex)
 	case m.TaskTypePickup:
-		char.Pickup(gs, task.Agent, 1, char.GetTile(gs, task.Agent), task.Agent, charTask.Where, charTask.ItemIndex, charTask.ItemType)
+		tile := world.GetTileAtPos(gs, charTask.Pos)
+		char.Pickup(gs, task.Agent, 1, tile, task.Agent, charTask.Where, charTask.ItemIndex, charTask.ItemType)
 	default:
 		fmt.Println("Task not found: " + strconv.Itoa(task.Type))
 	}

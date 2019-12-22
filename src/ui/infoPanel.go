@@ -146,6 +146,8 @@ func setActionsDetails(ui *State, gs *m.State, nextRow *int) {
 	switch ui.IntendedAction {
 	case ActionEat:
 		setEat(ui, gs, nextRow)
+	case ActionDrink:
+		setDrink(ui, gs, nextRow)
 	case ActionUseInventory:
 		setUseInventory(ui, gs, nextRow)
 	case ActionPickup:
@@ -155,14 +157,14 @@ func setActionsDetails(ui *State, gs *m.State, nextRow *int) {
 
 func setEat(ui *State, gs *m.State, nextRow *int) {
 	addElementToInfoPanel(ui, "MANGER", nextRow, InfoPanelLeftMargin, 0, Action{})
-	foodOnGround := cmd.GetFoodAroundPlayer(gs)
-	if len(foodOnGround) > 0 {
-		addElementToInfoPanel(ui, "Au Sol", nextRow, InfoPanelLeftMargin, 0, Action{})
-		for i, food := range foodOnGround {
+	tilesAround := cmd.GetTilesAroundPlayer(gs)
+	for _, tile := range tilesAround {
+		for j, food := range tile.Tile.Items.Food {
 			addElementToInfoPanel(ui, getFoodLabel(food), nextRow, InfoPanelLeftMargin, 0, Action{
 				Name:   "eat",
-				Entity: i,
-				Data:   c.WhereFloor,
+				Entity: j,
+				Data:   tile.Pos,
+				Data2:  c.WhereFloor,
 			})
 		}
 	}
@@ -173,7 +175,24 @@ func setEat(ui *State, gs *m.State, nextRow *int) {
 			addElementToInfoPanel(ui, getFoodLabel(food), nextRow, InfoPanelLeftMargin, 0, Action{
 				Name:   "eat",
 				Entity: i,
-				Data:   c.WhereInventory,
+				Data:   m.Pos{},
+				Data2:  c.WhereInventory,
+			})
+		}
+	}
+}
+
+func setDrink(ui *State, gs *m.State, nextRow *int) {
+	addElementToInfoPanel(ui, "BOIRE", nextRow, InfoPanelLeftMargin, 0, Action{})
+	liquidTilesAround := cmd.GetLiquidTilesAroundPlayer(gs)
+	if len(liquidTilesAround) > 0 {
+		addElementToInfoPanel(ui, "Liquides alentours", nextRow, InfoPanelLeftMargin, 0, Action{})
+		for _, tile := range liquidTilesAround {
+			addElementToInfoPanel(ui, "Eau ("+tile.Tile.River.Name+")", nextRow, InfoPanelLeftMargin, 0, Action{
+				Name:   "drink",
+				Entity: 0,
+				Data:   tile.Pos,
+				Data2:  c.WhereFloor,
 			})
 		}
 	}
@@ -190,15 +209,15 @@ func setUseInventory(ui *State, gs *m.State, nextRow *int) {
 
 func setPickup(ui *State, gs *m.State, nextRow *int) {
 	addElementToInfoPanel(ui, "RAMASSER", nextRow, InfoPanelLeftMargin, 0, Action{})
-	foodOnGround := cmd.GetFoodAroundPlayer(gs)
-	if len(foodOnGround) > 0 {
-		for i, food := range foodOnGround {
-			text := getFoodLabel(food)
-			addElementToInfoPanel(ui, text, nextRow, InfoPanelLeftMargin, 0, Action{
+	tilesAround := cmd.GetTilesAroundPlayer(gs)
+	for _, tile := range tilesAround {
+		for j, food := range tile.Tile.Items.Food {
+			addElementToInfoPanel(ui, getFoodLabel(food), nextRow, InfoPanelLeftMargin, 0, Action{
 				Name:       "pickup",
-				Entity:     i,
+				Entity:     j,
 				EntityType: c.ItemTypeFood,
-				Data:       c.WhereFloor,
+				Data:       tile.Pos,
+				Data2:      c.WhereFloor,
 			})
 		}
 	}

@@ -5,11 +5,17 @@ import (
 	log "github.com/castle/src/game/log"
 	m "github.com/castle/src/game/model"
 	simTasks "github.com/castle/src/game/simTasks"
+	"github.com/castle/src/game/world"
 )
 
 func GetPlayerTile(gs *m.State) m.Tile {
 	var pos = &gs.Characters[0].Pos
 	return gs.World.Regions[pos.Region].Tiles[pos.Z][pos.X][pos.Y]
+}
+
+func GetTilesAroundPlayer(gs *m.State) []m.TileAndPos {
+	var pos = &gs.Characters[0].Pos
+	return world.GetTileAndPosAroundPos(gs, pos)
 }
 
 func MovePlayer(gs *m.State, x, y, z int) {
@@ -41,7 +47,7 @@ func MovePlayer(gs *m.State, x, y, z int) {
 	simTasks.RunSimulation(gs, dur)
 }
 
-func Eat(gs *m.State, where int, index int) {
+func Eat(gs *m.State, pos m.Pos, where int, index int) {
 	dur := char.GetTimeToEat()
 	task := m.CharacterTask{
 		LastUpdated: gs.Time,
@@ -49,12 +55,27 @@ func Eat(gs *m.State, where int, index int) {
 		Type:        m.TaskTypeEat,
 		Where:       where,
 		ItemIndex:   index,
+		Pos:         pos,
 	}
 	simTasks.AddPlayerTask(gs, task, dur)
 	simTasks.RunSimulation(gs, dur)
 }
 
-func Pickup(gs *m.State, where int, itemType int, index int) {
+func Drink(gs *m.State, pos m.Pos, where int, index int) {
+	dur := char.GetTimeToDrink()
+	task := m.CharacterTask{
+		LastUpdated: gs.Time,
+		Completion:  0,
+		Type:        m.TaskTypeDrink,
+		Where:       where,
+		ItemIndex:   index,
+		Pos:         pos,
+	}
+	simTasks.AddPlayerTask(gs, task, dur)
+	simTasks.RunSimulation(gs, dur)
+}
+
+func Pickup(gs *m.State, pos m.Pos, where int, itemType int, index int) {
 	dur := char.GetTimeToPickup()
 	task := m.CharacterTask{
 		LastUpdated: gs.Time,
@@ -63,6 +84,7 @@ func Pickup(gs *m.State, where int, itemType int, index int) {
 		Where:       where,
 		ItemIndex:   index,
 		ItemType:    itemType,
+		Pos:         pos,
 	}
 	simTasks.AddPlayerTask(gs, task, dur)
 	simTasks.RunSimulation(gs, dur)

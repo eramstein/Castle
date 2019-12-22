@@ -24,7 +24,8 @@ type Camera struct {
 
 type Action struct {
 	Name       string
-	Data       int
+	Data       interface{}
+	Data2      interface{}
 	EntityType int
 	Entity     int
 }
@@ -49,6 +50,7 @@ const (
 	ActionEat = iota + 1
 	ActionUseInventory
 	ActionPickup
+	ActionDrink
 )
 
 type BasicPlayerAction struct {
@@ -62,4 +64,5 @@ var BasicPlayerActions = []BasicPlayerAction{
 	{ActionEat, "Manger", "m", blt.TK_M},
 	{ActionUseInventory, "Inventaire", "i", blt.TK_I},
 	{ActionPickup, "Ramasser", "r", blt.TK_R},
+	{ActionDrink, "Boire", "b", blt.TK_B},
 }
